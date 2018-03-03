@@ -1,0 +1,25 @@
+[user]
+	name = Robert Marianski
+	email = rob@marianski.com
+[color]
+	branch = auto
+	diff = auto
+	interactive = auto
+	status = auto
+[alias]
+	ci = commit
+	co = checkout
+	di = diff
+	st = status
+	br = branch
+	lcm = log --format=%B -n 1
+	l = log --graph --pretty=format:'%C(yellow)%h%C(cyan)%d%Creset %s %C(white)- %an, %ar%Creset'
+	sh = show
+[core]
+	excludesfile = ~/.gitignore
+[sendemail]
+    smtpencryption = tls
+    smtpserver = mail.marianski.com
+    smtpuser = rob
+[rerere]
+	enabled = true

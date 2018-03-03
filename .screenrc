@@ -1,0 +1,11 @@
+shell /bin/zsh
+hardstatus alwayslastline
+hardstatus string '%{= G}[ %{G}%H %{g}][%= %{=w}%?%-Lw%?%{r}(%{W}%n*%f %t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B} %m/%d%{W}%c %{g}]'
+ignorecase on
+startup_message off
+escape "^j^j"
+defscrollback 9999
+altscreen on
+vbell off
+# quit all screens
+bind ^\ quit
