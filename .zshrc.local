@@ -384,4 +384,7 @@ zle -N edit-command-line
 bindkey '^xe' edit-command-line
 bindkey '^x^e' edit-command-line
 
+# trim the prompt used
+zstyle ':prompt:grml:left:setup' items vcs percent
+
 [ -r ${HOME}/.zshrc.local.specific ] && source ${HOME}/.zshrc.local.specific
