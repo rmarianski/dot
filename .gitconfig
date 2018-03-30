@@ -16,9 +16,5 @@
 	sh = show
 [core]
 	excludesfile = ~/.gitignore
-[sendemail]
-    smtpencryption = tls
-    smtpserver = mail.marianski.com
-    smtpuser = rob
 [rerere]
 	enabled = true
