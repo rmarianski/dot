@@ -87,3 +87,18 @@ endif
 
 nnoremap <leader>1 yypVr=
 nnoremap <leader>2 yypVr-
+
+autocmd FileType go nmap <leader>b  <Plug>(go-build)
+autocmd FileType go nmap <leader>r  <Plug>(go-run)
+autocmd FileType go nmap <leader>t  <Plug>(go-test)
+autocmd FileType go nmap <leader>m  <Plug>(go-imports)
+" go-info crashes, using describe instead
+" autocmd FileType go nmap <leader>i  <Plug>(go-info)
+autocmd FileType go nmap <leader>i  <Plug>(go-describe)
+autocmd FileType go nmap <leader>h  <Plug>(go-doc)
+autocmd FileType go nmap <leader>l  <Plug>(go-metalinter)
+autocmd Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
+autocmd Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
+autocmd Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
+" autocmd Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
+autocmd FileType go nmap <leader>d  :GoDeclsDir
