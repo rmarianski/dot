@@ -48,6 +48,7 @@ autocmd BufEnter *.cljs setlocal ft=clojure
 autocmd BufEnter *.jade setlocal ft=text sw=2 ts=2
 autocmd BufEnter *.go setlocal ft=go sw=4 ts=4
 autocmd BufEnter *.yaml setlocal ft=yaml sw=2 ts=2
+autocmd BufEnter *.proto setlocal ft=proto sw=2 ts=2
 "autocmd BufEnter *.compose-mode setlocal ft=mail
 "autocmd BufEnter *.forward-mode setlocal ft=mail
 "autocmd BufEnter *.reply-mode setlocal ft=mail
