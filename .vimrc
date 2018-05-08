@@ -20,6 +20,7 @@ set wrap
 set nocompatible
 set wildmenu
 set autowrite
+set autowriteall
 autocmd BufEnter * silent! lcd %:p:h
 set grepprg=ag
 iab pdb import pdb; pdb.set_trace()
