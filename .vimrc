@@ -105,3 +105,5 @@ autocmd Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
 " autocmd Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
 autocmd FileType go nmap <leader>d  :GoDecls
 autocmd FileType go nmap <leader>D  :GoDeclsDir
+
+let g:go_metalinter_enabled = ['vet', 'vetshadow', 'golint', 'goconst', 'ineffassign', 'misspell', 'lll']

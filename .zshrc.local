@@ -387,4 +387,7 @@ bindkey '^x^e' edit-command-line
 # trim the prompt used
 zstyle ':prompt:grml:left:setup' items vcs percent
 
+# set up a gometalinter with preferred plugins
+alias gometalinter-rob='gometalinter --disable-all --enable=vet --enable=vetshadow --enable=golint --enable=goconst --enable=ineffassign --enable=misspell --enable=lll --enable=errcheck --enable=structcheck --enable=varcheck --enable=maligned --enable=nakedret --enable=deadcode --enable=interfacer --enable=megacheck --enable=unconvert --deadline=60s'
+
 [ -r ${HOME}/.zshrc.local.specific ] && source ${HOME}/.zshrc.local.specific
