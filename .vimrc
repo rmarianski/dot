@@ -107,3 +107,5 @@ autocmd FileType go nmap <leader>d  :GoDecls
 autocmd FileType go nmap <leader>D  :GoDeclsDir
 
 let g:go_metalinter_enabled = ['vet', 'vetshadow', 'golint', 'goconst', 'ineffassign', 'misspell']
+
+let g:UltiSnipsListSnippets = '<C-l>'

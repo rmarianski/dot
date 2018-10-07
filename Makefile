@@ -19,12 +19,14 @@ VIM_PLUGINS = \
 ctrlp.vim \
 syntastic \
 tabular \
+ultisnips \
 vim-colors-solarized \
 vim-commentary \
 vim-fugitive \
 vim-go \
 vim-repeat \
 vim-rhubarb \
+vim-snippets \
 vim-surround \
 vim-unimpaired \
 
@@ -54,6 +56,9 @@ $(DEST_DIR):
 ~/.vim/bundle/syntastic: | ~/.vim/bundle
 	git clone https://github.com/scrooloose/syntastic.git ~/.vim/bundle/syntastic
 
+~/.vim/bundle/ultisnips: | ~/.vim/bundle
+	git clone https://github.com/SirVer/ultisnips ~/.vim/bundle/ultisnips
+
 ~/.vim/bundle/ctrlp.vim: | ~/.vim/bundle
 	git clone https://github.com/ctrlpvim/ctrlp.vim.git ~/.vim/bundle/ctrlp.vim
 
@@ -71,6 +76,9 @@ $(DEST_DIR):
 
 ~/.vim/bundle/vim-colors-solarized: | ~/.vim/bundle
 	git clone git://github.com/altercation/vim-colors-solarized.git ~/.vim/bundle/vim-colors-solarized
+
+~/.vim/bundle/vim-snippets: | ~/.vim/bundle
+	git clone https://github.com/honza/vim-snippets ~/.vim/bundle/vim-snippets
 
 ~/.vim/bundle/vim-surround: | ~/.vim/bundle
 	git clone git://github.com/tpope/vim-surround.git ~/.vim/bundle/vim-surround
