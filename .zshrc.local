@@ -366,6 +366,7 @@ alias ....='cd ../../..'
 alias mv='mv -i'
 alias psd='python setup.py develop'
 alias pst='python setup.py test'
+alias gbr='git rev-parse --abbrev-ref HEAD'
 
 # abbreviations
 # add a prefix and don't use sudo
