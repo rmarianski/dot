@@ -1,3 +1,8 @@
+" workaround for python3 imp warning
+if has('python3')
+  silent! python3 1
+endif
+
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 set ruler
