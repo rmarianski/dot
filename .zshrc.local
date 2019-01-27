@@ -342,6 +342,7 @@ export PGUSER=postgres
 export PGPASSWORD=postgres
 export PGHOST=localhost
 
+export ORIG_PATH=$PATH
 export PATH=$HOME/bin:$HOME/opt/bin:$PATH
 export MANPATH=$HOME/opt/man:$MANPATH
 export LD_LIBRARY_PATH=$HOME/opt/lib:$LD_LIBRARY_PATH
@@ -379,6 +380,8 @@ abk[sq]="| tr -s ' '"
 abk[http]='python -m SimpleHTTPServer'
 # python debug smtp server
 abk[smtp]='sudo python -m smtpd -c DebuggingServer localhost:25'
+abk[gbr]='`gbr`'
+abk[fwl]='--force-with-lease '
 
 autoload -U edit-command-line
 zle -N edit-command-line
