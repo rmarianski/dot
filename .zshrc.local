@@ -362,12 +362,24 @@ alias lsf='ls *(.)'
 alias l="ls"
 alias bi='brew install'
 alias newest="ls -rt *(D.om[1,1])"
-alias ...='cd ../..'
-alias ....='cd ../../..'
 alias mv='mv -i'
 alias psd='python setup.py develop'
 alias pst='python setup.py test'
+
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+alias ......='cd ../../../../..'
+
 alias gbr='git rev-parse --abbrev-ref HEAD'
+alias gd="git di"
+alias gdc="git di --cached"
+alias gst="git st"
+alias gl="git l"
+alias gsh="git sh"
+alias gco="git co"
+alias ga="git add"
+alias gci="git ci -v"
 
 # abbreviations
 # add a prefix and don't use sudo
