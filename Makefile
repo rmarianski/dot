@@ -39,7 +39,9 @@ git: ~/.gitconfig ~/.gitignore
 screen: ~/.screenrc
 tmux: ~/.tmux.conf
 zsh: ~/.zshrc ~/.zshrc.local
-.PHONY: all vim emacs git screen tmux zsh
+emacs-gtk-key-bindings:
+	gsettings set org.gnome.desktop.interface gtk-key-theme "Emacs"
+.PHONY: all vim emacs git screen tmux zsh emacs-gtk-key-bindings
 
 $(DEST_SYM):
 	ln -s `pwd`/$(notdir $@) $@
