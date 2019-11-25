@@ -409,5 +409,7 @@ zstyle ':prompt:grml:left:setup' items vcs percent
 # set up a gometalinter with preferred plugins
 alias gometalinter-fast='gometalinter --disable-all --enable=vet --enable=vetshadow --enable=golint --enable=goconst --enable=ineffassign --enable=misspell --deadline=5s'
 alias gometalinter-all='gometalinter --disable-all --enable=vet --enable=vetshadow --enable=golint --enable=goconst --enable=ineffassign --enable=misspell --enable=errcheck --enable=structcheck --enable=varcheck --enable=maligned --enable=nakedret --enable=deadcode --enable=interfacer --enable=staticcheck --enable=unconvert --linter="errcheck:errcheck -ignorepkg fmt:PATH:LINE:MESSAGE" --deadline=300s'
+alias drit="docker run -it --rm"
+alias dritu="docker run -it --rm --name ubuntu rmarianski/ubuntu"
 
 [ -r ${HOME}/.zshrc.local.specific ] && source ${HOME}/.zshrc.local.specific
