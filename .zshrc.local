@@ -371,7 +371,7 @@ alias ....='cd ../../..'
 alias .....='cd ../../../..'
 alias ......='cd ../../../../..'
 
-alias gbr='git rev-parse --abbrev-ref HEAD'
+alias gbr='git br'
 alias gd="git di"
 alias gdc="git di --cached"
 alias gst="git st"
@@ -380,6 +380,9 @@ alias gsh="git sh"
 alias gco="git co"
 alias ga="git add"
 alias gci="git ci -v"
+alias gcia="git ci --amend"
+alias gciah="git ci --amend -C HEAD"
+alias gp="git pull"
 
 # abbreviations
 # add a prefix and don't use sudo
@@ -392,7 +395,7 @@ abk[sq]="| tr -s ' '"
 abk[http]='python -m SimpleHTTPServer'
 # python debug smtp server
 abk[smtp]='sudo python -m smtpd -c DebuggingServer localhost:25'
-abk[gbr]='`gbr`'
+abk[gbr]='`git rev-parse --abbrev-ref HEAD`'
 abk[fwl]='--force-with-lease '
 
 autoload -U edit-command-line
@@ -405,6 +408,6 @@ zstyle ':prompt:grml:left:setup' items vcs percent
 
 # set up a gometalinter with preferred plugins
 alias gometalinter-fast='gometalinter --disable-all --enable=vet --enable=vetshadow --enable=golint --enable=goconst --enable=ineffassign --enable=misspell --deadline=5s'
-alias gometalinter-all='gometalinter --disable-all --enable=vet --enable=vetshadow --enable=golint --enable=goconst --enable=ineffassign --enable=misspell --enable=errcheck --enable=structcheck --enable=varcheck --enable=maligned --enable=nakedret --enable=deadcode --enable=interfacer --enable=megacheck --enable=unconvert --linter="errcheck:errcheck -ignorepkg fmt:PATH:LINE:MESSAGE" --deadline=120s'
+alias gometalinter-all='gometalinter --disable-all --enable=vet --enable=vetshadow --enable=golint --enable=goconst --enable=ineffassign --enable=misspell --enable=errcheck --enable=structcheck --enable=varcheck --enable=maligned --enable=nakedret --enable=deadcode --enable=interfacer --enable=staticcheck --enable=unconvert --linter="errcheck:errcheck -ignorepkg fmt:PATH:LINE:MESSAGE" --deadline=300s'
 
 [ -r ${HOME}/.zshrc.local.specific ] && source ${HOME}/.zshrc.local.specific
