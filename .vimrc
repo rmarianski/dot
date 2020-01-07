@@ -27,7 +27,7 @@ set wildmenu
 set autowrite
 set autowriteall
 autocmd BufEnter * silent! lcd %:p:h
-set grepprg=ag
+set grepprg=ag\ --ignore-dir=vendor
 iab pdb import pdb; pdb.set_trace()
 syntax on
 filetype plugin indent on
@@ -53,8 +53,9 @@ autocmd BufEnter *.rb setlocal sw=2 ts=2
 autocmd BufEnter *.cljs setlocal ft=clojure
 autocmd BufEnter *.jade setlocal ft=text sw=2 ts=2
 autocmd BufEnter *.go setlocal ft=go sw=4 ts=4
-autocmd BufEnter *.yaml setlocal ft=yaml sw=2 ts=2
-autocmd BufEnter *.proto setlocal ft=proto sw=2 ts=2
+autocmd BufEnter *.yaml setlocal ft=yaml sw=2 ts=2 et
+autocmd BufEnter *.yml setlocal ft=yaml sw=2 ts=2 et
+autocmd BufEnter *.proto setlocal ft=proto sw=2 ts=2 et
 "autocmd BufEnter *.compose-mode setlocal ft=mail
 "autocmd BufEnter *.forward-mode setlocal ft=mail
 "autocmd BufEnter *.reply-mode setlocal ft=mail
@@ -87,6 +88,7 @@ let g:syntastic_cpp_compiler_options = '-std=c++11'
 let g:syntastic_go_checkers = []
 
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
+let g:ctrlp_custom_ignore = 'git\|vendor'
 
 if filereadable(expand("~/.vimrc.local"))
   exec ":so ~/.vimrc.local"
