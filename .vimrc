@@ -114,7 +114,10 @@ autocmd FileType go nmap <leader>d  :GoDecls
 autocmd FileType go nmap <leader>D  :GoDeclsDir
 autocmd FileType go nmap <leader>e  :GoIfErr
 autocmd FileType go nmap <leader>s  :GoFillStruct
+let g:go_fmt_options = {
+  \ 'gofmt': '-s',
+  \ }
 
-let g:go_metalinter_enabled = ['vet', 'vetshadow', 'golint', 'goconst', 'ineffassign', 'misspell']
+" let g:go_metalinter_enabled = ['vet', 'vetshadow', 'golint', 'goconst', 'ineffassign', 'misspell', 'deadcode']
 
 let g:UltiSnipsListSnippets = '<C-l>'
