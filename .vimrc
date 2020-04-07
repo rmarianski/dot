@@ -36,6 +36,8 @@ set omnifunc=syntaxcomplete#Complete
 set tags=./tags;
 " add subdirectories to search path
 set path+=**
+" work around tags file not sorted errors
+set notagbsearch
 " highlight trailing whitespace
 highlight ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+$/
@@ -117,7 +119,6 @@ autocmd FileType go nmap <leader>s  :GoFillStruct
 let g:go_fmt_options = {
   \ 'gofmt': '-s',
   \ }
-
-" let g:go_metalinter_enabled = ['vet', 'vetshadow', 'golint', 'goconst', 'ineffassign', 'misspell', 'deadcode']
-
+let g:go_fmt_command = "goimports"
 let g:UltiSnipsListSnippets = '<C-l>'
+let g:UltiSnipsSnippetDirectories=["UltiSnips", "my-snippets"]

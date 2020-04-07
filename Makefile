@@ -33,7 +33,7 @@ vim-unimpaired \
 VIM_PLUGIN_DEST = $(patsubst %,~/.vim/bundle/%,$(VIM_PLUGINS))
 
 all: vim git tmux zsh
-vim: ~/.vimrc ~/.vim/bundle ~/.vim/autoload/pathogen.vim $(VIM_PLUGIN_DEST)
+vim: ~/.vimrc ~/.vim/bundle ~/.vim/autoload/pathogen.vim ~/.vim/my-snippets $(VIM_PLUGIN_DEST)
 emacs: ~/.emacs.d ~/.emacs.d/init.el
 git: ~/.gitconfig ~/.gitignore
 screen: ~/.screenrc
@@ -93,3 +93,6 @@ $(DEST_DIR):
 
 ~/.vim/bundle/vim-unimpaired: | ~/.vim/bundle
 	git clone https://github.com/tpope/vim-unimpaired.git ~/.vim/bundle/vim-unimpaired
+
+~/.vim/my-snippets: | ~/.vim
+	ln -s $(PWD)/vim-snippets ~/.vim/my-snippets
