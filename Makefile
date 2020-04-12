@@ -29,6 +29,7 @@ vim-rhubarb \
 vim-snippets \
 vim-surround \
 vim-unimpaired \
+splitjoin.vim \
 
 VIM_PLUGIN_DEST = $(patsubst %,~/.vim/bundle/%,$(VIM_PLUGINS))
 
@@ -93,6 +94,9 @@ $(DEST_DIR):
 
 ~/.vim/bundle/vim-unimpaired: | ~/.vim/bundle
 	git clone https://github.com/tpope/vim-unimpaired.git ~/.vim/bundle/vim-unimpaired
+
+~/.vim/bundle/splitjoin.vim: | ~/.vim/bundle
+	git clone https://github.com/AndrewRadev/splitjoin.vim ~/.vim/bundle/splitjoin.vim
 
 ~/.vim/my-snippets: | ~/.vim
 	ln -s $(PWD)/vim-snippets ~/.vim/my-snippets
