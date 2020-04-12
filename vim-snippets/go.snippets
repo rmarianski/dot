@@ -14,7 +14,59 @@ endsnippet
 
 snippet ifef "if format.errorf"
 if err != nil {
-	return fmt.Errorf("${1:string}: %s", err)
+	return fmt.Errorf("${1:message}: %s", ${2}err)
 }
 ${0}
+endsnippet
+
+snippet ifs "if s != ''"
+if ${1:string} != "" {
+	${0}
+}
+endsnippet
+
+snippet ifp "if p != nil"
+if ${1:ptr} != nil {
+	${0}
+}
+endsnippet
+
+snippet ifl "if len(slice) != nil"
+if len(${1:slice}) > 0 {
+	${0}
+}
+endsnippet
+
+snippet fe "format.errorf"
+fmt.Errorf("${1:message}: %s", ${2}err)${0}
+endsnippet
+
+snippet ctxb "set background context"
+ctx := context.Background()${0}
+endsnippet
+
+snippet ctxc "set context with cancel"
+ctx, cancel := context.WithCancel(${1:ctx})
+defer cancel()${0}
+endsnippet
+
+snippet ctxt "set context with timeout"
+ctx, cancel := context.WithTimeout(${1:ctx}, ${2:time.Second})
+defer cancel()${0}
+endsnippet
+
+snippet flags "add flag string var"
+flag.StringVar(&${1:var}, "${2:flag}", "${3:default}", "${4:help}")${0}
+endsnippet
+
+snippet flagi "add flag int var"
+flag.IntVar(&${1:var}, "${2:flag}", ${3:0}, "${4:help}")${0}
+endsnippet
+
+snippet flagu "add flag uint var"
+flag.UintVar(&${1:var}, "${2:flag}", ${3:0}, "${4:help}")${0}
+endsnippet
+
+snippet flagd "add flag duration var"
+flag.DurationVar(&${1:var}, "${2:flag}", ${3:time.Second}, "${4:help}")${0}
 endsnippet
