@@ -14,7 +14,7 @@ endsnippet
 
 snippet ifef "if format.errorf"
 if err != nil {
-	return fmt.Errorf("${1:message}: %s", ${2}err)
+	return ${1}fmt.Errorf("${2:message}: %s", ${3}err)
 }
 ${0}
 endsnippet
