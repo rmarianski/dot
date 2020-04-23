@@ -11,6 +11,7 @@ DIRS = \
 .emacs.d \
 .vim/autoload \
 .vim/bundle \
+bin \
 
 DEST_SYM = $(patsubst %,~/%,$(SYMS))
 DEST_DIR = $(patsubst %,~/%,$(DIRS))
@@ -34,7 +35,7 @@ splitjoin.vim \
 VIM_PLUGIN_DEST = $(patsubst %,~/.vim/bundle/%,$(VIM_PLUGINS))
 
 all: vim git tmux zsh
-vim: ~/.vimrc ~/.vim/bundle ~/.vim/autoload/pathogen.vim ~/.vim/my-snippets $(VIM_PLUGIN_DEST)
+vim: ~/.vimrc ~/.vim/bundle ~/.vim/autoload/pathogen.vim ~/.vim/my-snippets ~/.vim/go-template-file.go $(VIM_PLUGIN_DEST) ~/bin/vi-golangci-lint
 emacs: ~/.emacs.d ~/.emacs.d/init.el
 git: ~/.gitconfig ~/.gitignore
 screen: ~/.screenrc
@@ -100,3 +101,9 @@ $(DEST_DIR):
 
 ~/.vim/my-snippets: | ~/.vim
 	ln -s $(PWD)/vim-snippets ~/.vim/my-snippets
+
+~/.vim/go-template-file.go: | ~/.vim
+	ln -s $(PWD)/go-template-file.go ~/.vim/go-template-file.go
+
+~/bin/vi-golangci-lint: | ~/bin
+	ln -s $(PWD)/vi-golangci-lint ~/bin/vi-golangci-lint

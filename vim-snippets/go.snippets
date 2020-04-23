@@ -25,8 +25,20 @@ if ${1:string} != "" {
 }
 endsnippet
 
+snippet ifse "if s == ''"
+if ${1:string} == "" {
+	${0}
+}
+endsnippet
+
 snippet ifp "if p != nil"
 if ${1:ptr} != nil {
+	${0}
+}
+endsnippet
+
+snippet ifpn "if p == nil"
+if ${1:ptr} == nil {
 	${0}
 }
 endsnippet
@@ -39,6 +51,10 @@ endsnippet
 
 snippet fe "format.errorf"
 fmt.Errorf("${1:message}: %s", ${2}err)${0}
+endsnippet
+
+snippet en "errors.new"
+errors.New("${1:message}")${0}
 endsnippet
 
 snippet ctxb "set background context"

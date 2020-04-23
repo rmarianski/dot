@@ -120,5 +120,7 @@ let g:go_fmt_options = {
   \ 'gofmt': '-s',
   \ }
 let g:go_fmt_command = "goimports"
+let g:go_metalinter_command = "vi-golangci-lint"
 let g:UltiSnipsListSnippets = '<C-l>'
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "my-snippets"]
+let g:go_template_file = expand("$HOME/.vim/go-template-file.go")
