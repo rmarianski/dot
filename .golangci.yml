@@ -21,8 +21,10 @@ linters:
     - ineffassign
     - interfacer
     # - lll
+    - maligned
     - misspell
     - nakedret
+    - prealloc
     - scopelint
     - staticcheck
     - structcheck
