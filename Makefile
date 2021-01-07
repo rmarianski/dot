@@ -6,12 +6,14 @@ SYMS = \
 .vimrc \
 .zshrc \
 .zshrc.local \
+.config/kak/kakrc \
 
 DIRS = \
 .emacs.d \
 .vim/autoload \
 .vim/bundle \
 bin \
+.config/kak \
 
 DEST_SYM = $(patsubst %,~/%,$(SYMS))
 DEST_DIR = $(patsubst %,~/%,$(DIRS))
@@ -34,7 +36,7 @@ splitjoin.vim \
 
 VIM_PLUGIN_DEST = $(patsubst %,~/.vim/bundle/%,$(VIM_PLUGINS))
 
-all: vim git tmux zsh
+all: vim git tmux zsh kak
 vim: ~/.vimrc ~/.vim/bundle ~/.vim/autoload/pathogen.vim ~/.vim/my-snippets ~/.vim/go-template-file.go $(VIM_PLUGIN_DEST) ~/bin/vi-golangci-lint
 emacs: ~/.emacs.d ~/.emacs.d/init.el
 git: ~/.gitconfig ~/.gitignore
@@ -43,7 +45,7 @@ tmux: ~/.tmux.conf
 zsh: ~/.zshrc ~/.zshrc.local
 emacs-gtk-key-bindings:
 	gsettings set org.gnome.desktop.interface gtk-key-theme "Emacs"
-.PHONY: all vim emacs git screen tmux zsh emacs-gtk-key-bindings
+.PHONY: all vim emacs git screen tmux zsh emacs-gtk-key-bindings kak
 
 $(DEST_SYM):
 	ln -s `pwd`/$(notdir $@) $@
@@ -53,6 +55,8 @@ $(DEST_SYM):
 
 $(DEST_DIR):
 	mkdir -p $@
+
+kak: ~/.config/kak ~/.config/kak/kakrc
 
 ~/.vim/autoload/pathogen.vim: ~/.vim/autoload
 	curl -SsLo ~/.vim/autoload/pathogen.vim https://raw.githubusercontent.com/tpope/vim-pathogen/master/autoload/pathogen.vim
