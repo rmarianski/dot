@@ -2,8 +2,9 @@ priority 10
 
 snippet ife "if error"
 if err != nil {
-	${0}
+	${1}
 }
+${0}
 endsnippet
 
 snippet ifie "if inline error"
@@ -43,8 +44,14 @@ if ${1:ptr} == nil {
 }
 endsnippet
 
-snippet ifl "if len(slice) != nil"
+snippet ifl "if len(slice) > 0"
 if len(${1:slice}) > 0 {
+	${0}
+}
+endsnippet
+
+snippet iflz "if len(slice) > nil"
+if len(${1:slice}) == 0 {
 	${0}
 }
 endsnippet
@@ -85,4 +92,8 @@ endsnippet
 
 snippet flagd "add flag duration var"
 flag.DurationVar(&${1:var}, "${2:flag}", ${3:time.Second}, "${4:help}")${0}
+endsnippet
+
+snippet flagb "add flag bool var"
+flag.BoolVar(&${1:var}, "${2:flag}", ${3:false}, "${4:help}")${0}
 endsnippet
