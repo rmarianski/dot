@@ -1,6 +1,7 @@
 source "%val{config}/plugins/plug.kak/rc/plug.kak"
 
 # set-option buffer=%val{config}/kakrc indentwidth 2
+set-option global grepcmd ag
 
 plug "kak-lsp/kak-lsp" do %{
     cargo install --locked --force --path .
