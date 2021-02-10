@@ -50,3 +50,5 @@ map global grep g ':grep ' -docstring 'run grep'
 map global grep p ': grep-next-match<ret>' -docstring 'run grep-previous-match'
 map global grep n ': grep-next-match<ret>' -docstring 'run grep-next-match'
 map global grep l ': edit -existing *grep* <ret>' -docstring 'show grep results'
+
+map global user c ':comment-line<ret>' -docstring 'comment line'
