@@ -7,6 +7,7 @@ SYMS = \
 .zshrc \
 .zshrc.local \
 .config/kak/kakrc \
+.config/nvim/init.vim \
 
 DIRS = \
 .emacs.d \
@@ -14,6 +15,7 @@ DIRS = \
 .vim/bundle \
 bin \
 .config/kak \
+.config/nvim \
 
 DEST_SYM = $(patsubst %,~/%,$(SYMS))
 DEST_DIR = $(patsubst %,~/%,$(DIRS))
@@ -37,7 +39,7 @@ splitjoin.vim \
 VIM_PLUGIN_DEST = $(patsubst %,~/.vim/bundle/%,$(VIM_PLUGINS))
 
 all: vim git tmux zsh kak
-vim: ~/.vimrc ~/.vim/bundle ~/.vim/autoload/pathogen.vim ~/.vim/my-snippets ~/.vim/go-template-file.go $(VIM_PLUGIN_DEST) ~/bin/vi-golangci-lint
+vim: ~/.vimrc ~/.vim/bundle ~/.vim/autoload/pathogen.vim ~/.vim/my-snippets ~/.vim/go-template-file.go $(VIM_PLUGIN_DEST) ~/bin/vi-golangci-lint ~/.config/nvim/init.vim ~/.local/share/nvim/site/autoload/plug.vim
 emacs: ~/.emacs.d ~/.emacs.d/init.el
 git: ~/.gitconfig ~/.gitignore
 screen: ~/.screenrc
@@ -57,6 +59,9 @@ $(DEST_DIR):
 	mkdir -p $@
 
 kak: ~/.config/kak ~/.config/kak/kakrc
+
+~/.local/share/nvim/site/autoload/plug.vim:
+	bash install-plug.vim.sh
 
 ~/.vim/autoload/pathogen.vim: ~/.vim/autoload
 	curl -SsLo ~/.vim/autoload/pathogen.vim https://raw.githubusercontent.com/tpope/vim-pathogen/master/autoload/pathogen.vim
