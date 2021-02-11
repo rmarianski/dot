@@ -365,6 +365,7 @@ alias newest="ls -rt *(D.om[1,1])"
 alias mv='mv -i'
 alias psd='python setup.py develop'
 alias pst='python setup.py test'
+alias less="less -i"
 
 alias ...='cd ../..'
 alias ....='cd ../../..'
