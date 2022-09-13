@@ -385,6 +385,7 @@ alias gcia="git ci --amend"
 alias gciah="git ci --amend -C HEAD"
 alias gp="git pull"
 alias gcsh="git rev-parse --short HEAD"
+alias gcm="git show -s --format=%s"
 
 # abbreviations
 # add a prefix and don't use sudo
