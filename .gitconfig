@@ -17,7 +17,15 @@
 	sh = show
 [core]
 	excludesfile = ~/.gitignore
+    pager = delta
 [rerere]
 	enabled = true
 [pull]
 	ff = only
+[delta]
+    navigate = true
+    light = false
+[merge]
+    conflictstyle = diff3
+[diff]
+    colorMoved = default
