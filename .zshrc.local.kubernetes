@@ -1,0 +1,19 @@
+alias k=kubectl
+alias kg="k get"
+alias kd="k describe"
+alias ke="k edit"
+alias kl="k logs"
+alias klf="kl -f"
+alias kgp="kg po"
+alias kdp="kd po"
+alias kga="kg all"
+alias kaf="k apply -f"
+alias kctx=kubectx
+alias kns=kubens
+alias kcc="k config view -o jsonpath='{.current-context}' && echo"
+alias kcn="k config view -o jsonpath='{..namespace}' && echo"
+alias kgd="kg deploy"
+alias kdd="kd deploy"
+alias ked="ke deploy"
+
+abk[sort]='--sort-by=.metadata.creationTimestamp'
