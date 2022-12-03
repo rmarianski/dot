@@ -15,5 +15,8 @@ alias kcn="k config view -o jsonpath='{..namespace}' && echo"
 alias kgd="kg deploy"
 alias kdd="kd deploy"
 alias ked="ke deploy"
+alias kgh="kg hpa"
+alias kdh="kd hpa"
+alias keh="ke hpa"
 
 abk[sort]='--sort-by=.metadata.creationTimestamp'
