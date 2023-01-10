@@ -10,13 +10,25 @@ alias kga="kg all"
 alias kaf="k apply -f"
 alias kctx=kubectx
 alias kns=kubens
-alias kcc="k config view -o jsonpath='{.current-context}' && echo"
-alias kcn="k config view -o jsonpath='{..namespace}' && echo"
+alias kcc="k config current-context"
+alias kcn="k config view --minify | grep namespace | awk '{print \$NF}'"
 alias kgd="kg deploy"
 alias kdd="kd deploy"
 alias ked="ke deploy"
 alias kgh="kg hpa"
 alias kdh="kd hpa"
 alias keh="ke hpa"
+alias ktp="k top po"
+alias ktn="k top no"
 
 abk[sort]='--sort-by=.metadata.creationTimestamp'
+
+function kimagedeploys() {
+    kgd -o json | jq -r '.items[] | .metadata.name + " " + .spec.template.spec.containers[0].image'
+}
+
+function kimagedeploy() {
+    kgd $1 -o json | jq -r '.metadata.name + " " + .spec.template.spec.containers[0].image'
+}
+
+source <(kubectl completion zsh)
