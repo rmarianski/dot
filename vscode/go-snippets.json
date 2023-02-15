@@ -1,0 +1,254 @@
+{
+	// Place your snippets for go here. Each snippet is defined under a snippet name and has a prefix, body and 
+	// description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the 
+	// same ids are connected.
+	// Example:
+	// "Print to console": {
+	// 	"prefix": "log",
+	// 	"body": [
+	// 		"console.log('$1');",
+	// 		"$2"
+	// 	],
+	// 	"description": "Log output to console"
+	// }
+
+	"if error": {
+		"prefix": "ife",
+		"body": [
+			"if err != nil {",
+			"\t$1",
+			"}$0",
+		],
+	},
+	"if error format": {
+		"prefix": "ifef",
+		"body": [
+			"if err != nil {",
+			"\treturn ${1}fmt.Errorf(\"${2:message}: %s\", ${3}err)",
+			"}",
+			"$0",
+		]
+	},
+	"if inline error": {
+		"prefix": "ifie",
+		"body": [
+			"if err := ${1:value}; err != nil {",
+			"\t$0",
+			"}",
+		],
+	},
+	"if string empty": {
+		"prefix": "ifsz",
+		"body": [
+			"if ${1:s} == \"\" {",
+			"\t$2",
+			"}$0",
+		]
+	},
+	"if string not empty": {
+		"prefix": "ifsnz",
+		"body": [
+			"if ${1:s} != \"\" {",
+			"\t$2",
+			"}$0",
+		]
+	},
+	"if number empty": {
+		"prefix": "ifnz",
+		"body": [
+			"if ${1:x} == 0 {",
+			"\t$2",
+			"}$0",
+		]
+	},
+	"if number not empty": {
+		"prefix": "ifnnz",
+		"body": [
+			"if ${1:x} != 0 {",
+			"\t$2",
+			"}$0",
+		]
+	},
+	"if len zero": {
+		"prefix": "iflz",
+		"body": [
+		"if len(${1:xs}) == 0 {",
+		"\t$2",
+		"}$0",
+		]
+	},
+	"if len not zero": {
+		"prefix": "iflnz",
+		"body": [
+		"if len(${1:xs}) > 0 {",
+		"\t$2",
+		"}$0",
+		]
+	},
+	"format.Errorf": {
+		"prefix": "fe",
+		"body": [
+			"fmt.Errorf(\"${1:message}: %s\", ${2}err)$0"
+		],
+	},
+	"ctx background": {
+		"prefix": "ctxb",
+		"body": [
+			"ctx := context.Background()"
+		],
+	},
+	"ctx cancel": {
+		"prefix": "ctxc",
+		"body": [
+			"ctx, cancel := context.WithCancel(${1:ctx})",
+			"defer cancel()${0}"
+		],
+	},
+	"ctx timeout": {
+		"prefix": "ctxt",
+		"body": [
+			"${3:ctx}, ${4:cancel} := context.WithTimeout(${1:ctx}, ${2:time.Second})",
+			"defer $4()${0}"
+		],
+	},
+	"ctx parameter": {
+		"prefix": "ctxd",
+		"body": [
+			"ctx context.Context$0"
+		],
+	},
+	"struct": {
+		"prefix": "struct",
+		"body": [
+			"type $1 struct {",
+			"\t$2",
+			"}$0",
+		],
+	},
+	"for iterate slice": {
+		"prefix": "forr",
+		"body": [
+			"for ${3:_}, ${2:x} := range ${1:xs} {",
+			"\t$0",
+			"}",
+		],
+	},
+	"make map": {
+		"prefix": "makemap",
+		"body": [
+			"${4:m} := make(map[${1:string}]${2:string}, len(${3:n}))$0"
+		]
+	},
+	"make slice": {
+		"prefix": "makeslice",
+		"body": [
+			"${3:xs} := make([]${1:string}, len(${2:n}))$0"
+		]
+	},
+	"make slice append": {
+		"prefix": "makesliceappend",
+		"body": [
+			"${3:xs} := make([]${1:string}, 0, len(${2:n}))$0"
+		]
+	},
+	"var slice": {
+		"prefix": "varslice",
+		"body": [
+			"var ${2:xs} []${1:string}$0"
+		]
+	},
+	"flag string": {
+		"prefix": "flags",
+		"body": [
+			"flag.StringVar(&flags.$1, \"$2\", \"$3\", \"$4\")$0"
+		]
+	},
+	"flag duration": {
+		"prefix": "flagd",
+		"body": [
+			"flag.DurationVar(&flags.$1, \"$2\", ${3:time.Second}, \"$4\")$0"
+		]
+	},
+	"flag uint": {
+		"prefix": "flagu",
+		"body": [
+			"flag.UintVar(&flags.$1, \"$2\", ${3:0}, \"$4\")$0"
+		]
+	},
+	"flag bool": {
+		"prefix": "flagb",
+		"body": [
+			"flag.BoolVar(&flags.$1, \"$2\", ${3:false}, \"$4\")$0"
+		]
+	},
+	"return": {
+		"prefix": "rt",
+		"body": [
+			"return "
+		]
+	},
+	"return error": {
+		"prefix": "rte",
+		"body": [
+			"return $1err$0"
+		]
+	},
+	"return nil": {
+		"prefix": "rtn",
+		"body": [
+			"return nil$0"
+		]
+	},
+	"errors new": {
+		"prefix": "en",
+		"body": [
+			"errors.New(\"$1\")$0"
+		]
+	},
+	"return errors.new": {
+		"prefix": "rten",
+		"body": [
+			"return errors.New(\"$1\")$0"
+		]
+	},
+	"return fmt.errorf": {
+		"prefix": "rtfe",
+		"body": [
+			"return ${1}fmt.Errorf(\"${2:message}: %s\", ${3}err)$0",
+		]
+	},
+	"test": {
+		"prefix": "test",
+		"body": [
+			"func Test${1:Func}(t *testing.T) {",
+			"\t$0",
+			"}"
+		]
+	},
+	"maincmd": {
+		"prefix": "maincmd",
+		"body": [
+			"package main",
+			"",
+			"import (",
+				"\t\"flag\"",
+				"\t\"log\"",
+			")",
+			"",
+			"type cmdFlags struct{}",
+			"",
+			"func main() {",
+				"\tvar flags cmdFlags",
+				"\tflag.Parse()",
+				"\tif err := run(&flags); err != nil {",
+					"\t\tlog.Fatalf(\"Error: %s\", err)",
+				"\t}",
+			"}",
+			"",
+			"func run(flags *cmdFlags) error {",
+				"\treturn nil",
+			"}"
+		]
+	}
+}
