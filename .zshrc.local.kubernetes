@@ -20,6 +20,8 @@ alias kdh="kd hpa"
 alias keh="ke hpa"
 alias ktp="k top po"
 alias ktn="k top no"
+alias kgj="kg job"
+alias krs="k rollout status"
 
 abk[sort]='--sort-by=.metadata.creationTimestamp'
 
