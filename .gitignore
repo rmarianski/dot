@@ -24,3 +24,4 @@ extra-ssh-config
 *.egg-info
 .emacs.d/*session*
 .gnupg/pubring.gpg~
+.vscode
