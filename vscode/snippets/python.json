@@ -52,6 +52,13 @@
 		],
 		"description": "return result",
 	},
+	"return none": {
+		"prefix": "rtn",
+		"body": [
+			"return None$0",
+		],
+		"description": "return none",
+	},
 	"result declare": {
 		"prefix": "rd",
 		"body": [
@@ -107,4 +114,11 @@
 		],
 		"description": "self.property = assignment",
 	},
+	"todo": {
+		"prefix": "todo",
+		"body": [
+			"# TODO: $0",
+		],
+		"description": "add todo comment",
+	}
 }
