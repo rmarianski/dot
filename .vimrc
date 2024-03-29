@@ -27,7 +27,7 @@ set wildmenu
 set autowrite
 set autowriteall
 autocmd BufEnter * silent! lcd %:p:h
-set grepprg=ag\ --ignore-dir=vendor
+set grepprg=rg\ --vimgrep
 iab pdb import pdb; pdb.set_trace()
 syntax on
 filetype plugin indent on
@@ -121,6 +121,6 @@ let g:go_fmt_options = {
   \ }
 let g:go_fmt_command = "goimports"
 let g:go_metalinter_command = "vi-golangci-lint"
-let g:UltiSnipsListSnippets = '<C-l>'
-let g:UltiSnipsSnippetDirectories=["UltiSnips", "my-snippets"]
+"let g:UltiSnipsListSnippets = '<C-l>'
+"let g:UltiSnipsSnippetDirectories=["UltiSnips", "my-snippets"]
 let g:go_template_file = expand("$HOME/.vim/go-template-file.go")
