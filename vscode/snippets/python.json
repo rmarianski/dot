@@ -30,13 +30,6 @@
 		],
 		"description": "enum using class syntax",
 	},
-	"enum inline": {
-		"prefix": "enuminline",
-		"body": [
-			"$1 = Enum('$1', ['$2', '$0'])"
-		],
-		"description": "enum using inline syntax",
-	},
 	"def": {
 		"prefix": "def",
 		"body": [
@@ -57,21 +50,21 @@
 		"body": [
 			"return None$0",
 		],
-		"description": "return none",
+		"description": "return None",
 	},
-	"result declare": {
-		"prefix": "rd",
+	"list declare": {
+		"prefix": "ld",
 		"body": [
-			"result: list[${1}] = []$0",
+			"$1: list[$2] = []$0",
 		],
-		"description": "result declare",
+		"description": "list declare",
 	},
-	"result append": {
-		"prefix": "ra",
+	"list append": {
+		"prefix": "la",
 		"body": [
-			"result.append($1)$0",
+			"$1.append($2)$0",
 		],
-		"description": "result append",
+		"description": "list append",
 	},
 	"for": {
 		"prefix": "for",
@@ -124,12 +117,141 @@
 	"main": {
 		"prefix": "main",
 		"body": [
-			"def main():",
+			"import argparse",
+			"",
+			"",
+			"def main() -> None:",
+			"    parser = argparse.ArgumentParser()",
 			"    $0",
+			"    args = parser.parse_args()",
 			"",
 			"",
-			"if __name__ == '__main__':",
-			"    main()"
-		]
-	}
+			"if __name__ == \"__main__\":",
+			"    main()",
+		],
+		"description": "create stub main"
+	},
+	"dsa": {
+		"prefix": "dsa",
+		"body": [
+			"dict[str, Any]",
+		],
+		"description": "dict type"
+	},
+	"argparse": {
+		"prefix": "argparse",
+		"body": [
+			"import argparse",
+			"parser = argparse.ArgumentParser()",
+			"args = parser.parse_args()",
+		],
+		"description": "set up arg parser",
+	},
+	"parg": {
+		"prefix": "parg",
+		"body": [
+			"parser.add_argument(\"--$1\"$2)$0",
+		],
+		"description": "set up arg parser",
+	},
+	"protocol": {
+		"prefix": "protocol",
+		"body": [
+			"class $1(Protocol):",
+			"    $0"
+		],
+	},
+	"mcso": {
+		"prefix": "mcso",
+		"body": [
+			"metric_$1.labels(status=\"ok\").inc()$0",
+		],
+	},
+	"mcse": {
+		"prefix": "mcse",
+		"body": [
+			"metric_$1.labels(status=\"err\").inc()$0",
+		],
+	},
+	"ml": {
+		"prefix": "ml",
+		"body": [
+			"metric_$1.observe($2)$0",
+		],
+	},
+	"wml": {
+		"prefix": "wml",
+		"body": [
+			"with metric_$1.time():",
+			"    $0",
+		],
+	},
+	"wtb": {
+		"prefix": "wtb",
+		"body": [
+			"with timed_block(logger, \"$1\"):",
+			"    $0",
+		],
+	},
+	"wtbm": {
+		"prefix": "wtbm",
+		"body": [
+			"with timed_block(logger, \"$1\", ${2:metric_latency}):",
+			"    $0",
+		],
+	},
+	"mdc": {
+		"prefix": "mdc",
+		"body": [
+			"metric_$1_count = Counter(",
+			"    \"$2_$1_count\",",
+			"    \"$3\",",
+			"    labelnames=(\"status\",),",
+			")",
+		],
+	},
+	"mdl": {
+		"prefix": "mdl",
+		"body": [
+			"metric_$1_latency = Histogram(",
+			"    \"$2_$1_latency\",",
+			"    \"$3\",",
+			"    buckets=(0.05, 0.1, 0.5, 1, 2, 3, 5, 8, 13, 21, 34, 55, INF),",
+			")",
+		],
+	},
+	"rve": {
+		"prefix": "rve",
+		"body": [
+			"raise ValueError(\"$1\")$0",
+		],
+	},
+	"ifn": {
+		"prefix": "ifn",
+		"body": [
+			"if $1 is None:",
+			"    $0",
+		],
+	},
+	"ex": {
+		"prefix": "ex",
+		"body": [
+			"except Exception as e:$0",
+		],
+	},
+	"tryex": {
+		"prefix": "tryex",
+		"body": [
+			"try:",
+			"    $1",
+			"except Exception as e:",
+			"    $0",
+		],
+	},
+	"argvar": {
+		"prefix": "argvar",
+		"body": [
+			"$1: ${2:str} = args.$1$0",
+		],
+	},
 }
