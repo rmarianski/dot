@@ -6,8 +6,8 @@ SYMS = \
 .vimrc \
 .zshrc \
 .zshrc.local \
-.config/kak/kakrc \
-.config/nvim/init.vim \
+.config/kak/kakrc
+# .config/nvim/init.vim \
 
 DIRS = \
 .emacs.d \
@@ -24,7 +24,6 @@ VIM_PLUGINS = \
 ctrlp.vim \
 syntastic \
 tabular \
-ultisnips \
 vim-colors-solarized \
 vim-commentary \
 vim-fugitive \
@@ -34,12 +33,14 @@ vim-rhubarb \
 vim-snippets \
 vim-surround \
 vim-unimpaired \
-splitjoin.vim \
+ultisnips \
+splitjoin.vim
 
 VIM_PLUGIN_DEST = $(patsubst %,~/.vim/bundle/%,$(VIM_PLUGINS))
 
 all: vim git tmux zsh kak
-vim: ~/.vimrc ~/.vim/bundle ~/.vim/autoload/pathogen.vim ~/.vim/my-snippets ~/.vim/go-template-file.go $(VIM_PLUGIN_DEST) ~/bin/vi-golangci-lint ~/.config/nvim/init.vim ~/.local/share/nvim/site/autoload/plug.vim
+# vim: ~/.vimrc ~/.vim/bundle ~/.vim/autoload/pathogen.vim ~/.vim/my-snippets ~/.vim/go-template-file.go $(VIM_PLUGIN_DEST) ~/bin/vi-golangci-lint ~/.config/nvim/init.vim ~/.local/share/nvim/site/autoload/plug.vim
+vim: ~/.vimrc ~/.vim/bundle ~/.vim/autoload/pathogen.vim ~/.vim/my-snippets ~/.vim/go-template-file.go $(VIM_PLUGIN_DEST) ~/bin/vi-golangci-lint ~/.local/share/nvim/site/autoload/plug.vim
 emacs: ~/.emacs.d ~/.emacs.d/init.el
 git: ~/.gitconfig ~/.gitignore
 screen: ~/.screenrc
@@ -82,22 +83,22 @@ kak: ~/.config/kak ~/.config/kak/kakrc
 	git clone https://github.com/fatih/vim-go.git ~/.vim/bundle/vim-go
 
 ~/.vim/bundle/vim-commentary: | ~/.vim/bundle
-	git clone git://github.com/tpope/vim-commentary.git ~/.vim/bundle/vim-commentary
+	git clone git@github.com:tpope/vim-commentary.git ~/.vim/bundle/vim-commentary
 
 ~/.vim/bundle/tabular: | ~/.vim/bundle
-	git clone git://github.com/godlygeek/tabular.git ~/.vim/bundle/tabular
+	git clone git@github.com:godlygeek/tabular.git ~/.vim/bundle/tabular
 
 ~/.vim/bundle/vim-colors-solarized: | ~/.vim/bundle
-	git clone git://github.com/altercation/vim-colors-solarized.git ~/.vim/bundle/vim-colors-solarized
+	git clone git@github.com:altercation/vim-colors-solarized.git ~/.vim/bundle/vim-colors-solarized
 
 ~/.vim/bundle/vim-snippets: | ~/.vim/bundle
 	git clone https://github.com/honza/vim-snippets ~/.vim/bundle/vim-snippets
 
 ~/.vim/bundle/vim-surround: | ~/.vim/bundle
-	git clone git://github.com/tpope/vim-surround.git ~/.vim/bundle/vim-surround
+	git clone git@github.com:tpope/vim-surround.git ~/.vim/bundle/vim-surround
 
 ~/.vim/bundle/vim-repeat: | ~/.vim/bundle
-	git clone git://github.com/tpope/vim-repeat.git ~/.vim/bundle/vim-repeat
+	git clone git@github.com:tpope/vim-repeat.git ~/.vim/bundle/vim-repeat
 
 ~/.vim/bundle/vim-rhubarb: | ~/.vim/bundle
 	git clone https://github.com/tpope/vim-rhubarb.git ~/.vim/bundle/vim-rhubarb
