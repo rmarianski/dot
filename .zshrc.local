@@ -415,4 +415,6 @@ zstyle ':prompt:grml:left:setup' items vcs percent
 alias drit="docker run -it --rm"
 alias dritu="docker run -it --rm --name ubuntu rmarianski/ubuntu"
 
+export RIPGREP_CONFIG_PATH=${HOME}/.ripgreprc
+
 [ -r ${HOME}/.zshrc.local.specific ] && source ${HOME}/.zshrc.local.specific
