@@ -131,5 +131,12 @@
 			"}",
 		],
 		"description": "async main for commands"
+	},
+	"map_err(format!(...))": {
+		"prefix": "mef",
+		"body": [
+			"map_err(|o| format!(\"$1: {}\", o))?;$0",
+		],
+		"description": "handle errors with map_err(format!(...))"
 	}
 }
