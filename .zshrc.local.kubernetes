@@ -21,6 +21,7 @@ alias keh="ke hpa"
 alias ktp="k top po"
 alias ktn="k top no"
 alias kgj="kg job"
+alias kgc="kg cronjob"
 alias krs="k rollout status"
 alias kdrain="k drain --delete-emptydir-data --ignore-daemonsets"
 
