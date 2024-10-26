@@ -7,6 +7,9 @@ SYMS = \
 .zshrc \
 .zshrc.local \
 .config/kak/kakrc
+.config/kak/kakrc \
+.config/nvim/init.vim \
+.ripgreprc \
 # .config/nvim/init.vim \
 
 DIRS = \
@@ -38,7 +41,7 @@ splitjoin.vim
 
 VIM_PLUGIN_DEST = $(patsubst %,~/.vim/bundle/%,$(VIM_PLUGINS))
 
-all: vim git tmux zsh kak
+all: vim git tmux zsh kak rg
 # vim: ~/.vimrc ~/.vim/bundle ~/.vim/autoload/pathogen.vim ~/.vim/my-snippets ~/.vim/go-template-file.go $(VIM_PLUGIN_DEST) ~/bin/vi-golangci-lint ~/.config/nvim/init.vim ~/.local/share/nvim/site/autoload/plug.vim
 vim: ~/.vimrc ~/.vim/bundle ~/.vim/autoload/pathogen.vim ~/.vim/my-snippets ~/.vim/go-template-file.go $(VIM_PLUGIN_DEST) ~/bin/vi-golangci-lint ~/.local/share/nvim/site/autoload/plug.vim
 emacs: ~/.emacs.d ~/.emacs.d/init.el
@@ -48,7 +51,8 @@ tmux: ~/.tmux.conf
 zsh: ~/.zshrc ~/.zshrc.local
 emacs-gtk-key-bindings:
 	gsettings set org.gnome.desktop.interface gtk-key-theme "Emacs"
-.PHONY: all vim emacs git screen tmux zsh emacs-gtk-key-bindings kak
+rg: ~/.ripgreprc
+.PHONY: all vim emacs git screen tmux zsh emacs-gtk-key-bindings kak rg
 
 $(DEST_SYM):
 	ln -s `pwd`/$(notdir $@) $@
