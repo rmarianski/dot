@@ -6,7 +6,6 @@ SYMS = \
 .vimrc \
 .zshrc \
 .zshrc.local \
-.config/kak/kakrc
 .config/kak/kakrc \
 .config/nvim/init.vim \
 .ripgreprc \
