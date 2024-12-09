@@ -38,6 +38,13 @@
 		],
 		"description": "define function",
 	},
+	"result equals": {
+		"prefix": "re",
+		"body": [
+			"result = $0",
+		],
+		"description": "result =",
+	},
 	"return result": {
 		"prefix": "rtr",
 		"body": [
@@ -95,10 +102,20 @@
 	"init": {
 		"prefix": "init",
 		"body": [
-			"def __init__(self, $1) -> None:",
+			"def __init__(",
+			"    self,",
+			"    $1: $2$0,",
+			") -> None:",
 			"    self.$1 = $1",
 		],
 		"description": "__init__ method",
+	},
+	"initvar": {
+		"prefix": "ia",
+		"body": [
+			"$1: $2,$0",
+		],
+		"description": "__init__ method arg",
 	},
 	"selfeq": {
 		"prefix": "se",
@@ -179,6 +196,12 @@
 			"metric_$1.observe($2)$0",
 		],
 	},
+	"mce": {
+		"prefix": "mce",
+		"body": [
+			"metric_$1.labels(side=\"$2\", kind=\"$3\").inc()$0",
+		],
+	},
 	"wml": {
 		"prefix": "wml",
 		"body": [
@@ -200,6 +223,39 @@
 			"    $0",
 		],
 	},
+	"twtbe": {
+		"prefix": "twtb",
+		"body": [
+			"try:",
+			"    with timed_block(logger, \"$1\"):",
+			"        $0",
+			"except Exception as e:",
+			"    $2",
+		],
+	},
+	"twtbme": {
+		"prefix": "twtbm",
+		"body": [
+			"try:",
+			"    with timed_block(logger, \"$1\", ${2:metric_latency}):",
+			"        $0",
+			"except Exception as e:",
+			"    $3",
+		],
+	},
+	"twtbmc": {
+		"prefix": "twtbmc",
+		"body": [
+			"try:",
+			"    with timed_block(logger, \"$1\", ${2:metric_latency}):",
+			"        $0",
+			"except Exception as e:",
+			"    $3.labels(status=\"err\").inc()",
+			"    $4",
+			"else:",
+			"    $3.labels(status=\"ok\").inc()",
+		],
+	},
 	"mdc": {
 		"prefix": "mdc",
 		"body": [
@@ -219,6 +275,12 @@
 			"    buckets=(0.05, 0.1, 0.5, 1, 2, 3, 5, 8, 13, 21, 34, 55, INF),",
 			")",
 		],
+	},
+	"refe": {
+		"prefix": "refe",
+		"body": [
+			"raise Exception(f\"$1: {e}\") from e",
+		]
 	},
 	"rve": {
 		"prefix": "rve",
