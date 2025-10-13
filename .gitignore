@@ -25,3 +25,5 @@ extra-ssh-config
 .emacs.d/*session*
 .gnupg/pubring.gpg~
 .vscode
+.claude/settings.local.json
+.tool-versions
