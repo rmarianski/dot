@@ -1,9 +1,11 @@
+# Kubernetes aliases - consolidated from ~/.zshrc.local.kubernetes
 alias k=kubectl
 alias kg="k get"
 alias kd="k describe"
 alias ke="k edit"
 alias kl="k logs"
 alias klf="kl -f"
+alias klj='f() { kubectl logs -f $1 | jq -Rr ". as \$line | try (fromjson | [.message] | @tsv ) catch \$line" };f'
 alias kgp="kg po"
 alias kdp="kd po"
 alias kga="kg all"
@@ -30,8 +32,9 @@ alias kes="ke svc"
 alias krs="k rollout status"
 alias kdrain="k drain --delete-emptydir-data --ignore-daemonsets"
 
-abk[sort]='--sort-by=.metadata.creationTimestamp'
+# Kubernetes abbreviations moved to ~/.zsh_abk
 
+# Kubernetes functions
 function kimagedeploys() {
     kgd -o json | jq -r '.items[] | .metadata.name + " " + .spec.template.spec.containers[0].image'
 }
@@ -40,4 +43,10 @@ function kimagedeploy() {
     kgd $1 -o json | jq -r '.metadata.name + " " + .spec.template.spec.containers[0].image'
 }
 
-source <(kubectl completion zsh)
+# Kubectl completion disabled due to fork issues
+# function _kubectl_completion_lazy() {
+#     if ! type __start_kubectl &>/dev/null; then
+#         source <(kubectl completion zsh)
+#     fi
+# }
+# alias kubectl="_kubectl_completion_lazy; kubectl"

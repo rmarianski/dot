@@ -1,0 +1,56 @@
+# Git aliases - extracted from ~/.zshrc.local
+alias gbr='git br'
+alias gd="git di"
+alias gdc="git di --cached"
+alias gst="git st"
+alias gl="git l"
+alias gsh="git sh"
+alias gco="git co"
+alias ga="git add"
+alias gci="git ci -v"
+alias gcia="git ci --amend"
+alias gciah="git ci --amend -C HEAD"
+alias gp="git pull"
+alias gcsh="git rev-parse --short HEAD"
+alias gcm="git show -s --format=%s"
+
+# Git worktree aliases
+alias gwt="git worktree"
+alias gwtl="gwt list"
+alias gwta="gwt add"
+alias gwtr="gwt remove"
+
+# Git worktree functions
+function gwtab() {
+  name="$1"
+  prefix="$2"
+  shift
+  shift
+  gwta ../$prefix-$name -b $name $*
+}
+
+function gwtabc() {
+  name="$1"
+  prefix="$2"
+  if [ -z "$2" ]; then
+    echo "Usage: $0 <name> <prefix>"
+    exit 1
+  fi
+  shift
+  shift
+  gwtab $name $prefix $*
+  cd ../$prefix-$name
+  claude
+}
+
+function gwtabcd() {
+  name="$1"
+  prefix="$2"
+  shift
+  shift
+  gwtab $name $prefix $*
+  claude-dangerous ../$prefix-$name
+}
+
+# Git abbreviations
+# Git abbreviations moved to ~/.zsh_abk

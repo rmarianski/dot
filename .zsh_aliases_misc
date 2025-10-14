@@ -1,0 +1,137 @@
+# Misc aliases and functions - extracted from ~/.zshrc.local and ~/.zsh_local
+
+# Directory navigation aliases
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+alias ......='cd ../../../../..'
+
+# File operations
+alias mv='mv -i'
+alias less="less -i"
+
+# Development aliases
+alias bi='brew install'
+alias c=cargo
+alias cb="c build"
+alias python=python3
+alias pip=pip3
+
+# Docker aliases
+# alias drit="docker run -it --rm"
+# alias dritu="docker run -it --rm --name ubuntu rmarianski/ubuntu"
+
+# File listing aliases
+if [ $(uname) != 'Darwin' ]; then
+    alias ls="ls -b -F --color=auto"
+fi
+alias lsf='ls *(.)'
+alias l="ls"
+alias newest="ls -rt *(D.om[1,1])"
+
+# Development shortcuts
+# alias psd='python setup.py develop'
+# alias pst='python setup.py test'
+
+# Abbreviations from grml
+# Abbreviations moved to ~/.zsh_abk
+
+# Command line editing moved to ~/.zshrc
+
+# Essential emacs-style key bindings
+bindkey -e  # Enable emacs keymap
+
+# Line navigation
+bindkey '^a' beginning-of-line
+bindkey '^e' end-of-line
+
+# Word navigation
+bindkey '\ef' forward-word        # alt+f
+bindkey '\eb' backward-word       # alt+b
+
+# Character navigation
+bindkey '^f' forward-char
+bindkey '^b' backward-char
+
+# Delete operations
+bindkey '^d' delete-char
+bindkey '^h' backward-delete-char
+bindkey '\ed' kill-word           # alt+d
+bindkey '^w' backward-kill-word
+bindkey '^k' kill-line
+bindkey '^u' kill-whole-line
+
+# History navigation
+bindkey '^p' up-line-or-history
+bindkey '^n' down-line-or-history
+bindkey '^r' history-incremental-search-backward
+
+# Alt+. to insert last argument from previous command
+bindkey '\e.' insert-last-word
+
+# Transpose operations
+bindkey '^t' transpose-chars      # ctrl+t
+bindkey '\et' transpose-words     # alt+t
+
+# VI keybindings for menu completion moved to ~/.zshrc
+
+# Utility functions from grml
+mkcd() {
+    if (( ARGC != 1 )); then
+        printf 'usage: mkcd <new-directory>\n'
+        return 1;
+    fi
+    if [[ ! -d "$1" ]]; then
+        command mkdir -p "$1"
+    else
+        printf '`%s'\'' already exists: cd-ing.\n' "$1"
+    fi
+    builtin cd "$1"
+}
+
+# Change directory and list files
+cl() {
+    emulate -L zsh
+    cd $1 && ls -a
+}
+
+# Smart cd function - handles files by going to their directory
+cd() {
+    if (( ${#argv} == 1 )) && [[ -f ${1} ]]; then
+        [[ ! -e ${1:h} ]] && return 1
+        print "Correcting ${1} to ${1:h}"
+        builtin cd ${1:h}
+    else
+        builtin cd "$@"
+    fi
+}
+
+# Create temporary directory and cd to it
+cdt() {
+    local t
+    t=$(mktemp -d)
+    echo "$t"
+    builtin cd "$t"
+}
+
+# Quick file backup with timestamp
+bk() {
+    emulate -L zsh
+    cp -a "$1" "${1}_$(date --iso-8601=seconds)"
+}
+
+# File age functions - find files by access/change/modification time
+accessed() {
+    emulate -L zsh
+    print -l -- *(a-${1:-1})
+}
+
+changed() {
+    emulate -L zsh
+    print -l -- *(c-${1:-1})
+}
+
+modified() {
+    emulate -L zsh
+    print -l -- *(m-${1:-1})
+}

@@ -1,0 +1,65 @@
+# Abbreviation expansion system (extracted from grml)
+# Type abbreviation followed by ',.' to expand
+
+# Abbreviations array
+typeset -A abk
+
+# Abbreviation expansion function
+zleiab() {
+    emulate -L zsh
+    setopt extendedglob
+    local MATCH
+
+    if (( NOABBREVIATION > 0 )) ; then
+        LBUFFER="${LBUFFER},."
+        return 0
+    fi
+
+    LBUFFER=${LBUFFER%%(#m)[.\-+:|_a-zA-Z0-9]#}
+    LBUFFER+=${abk[$MATCH]:-$MATCH}
+}
+
+zle -N zleiab
+
+# Keybinding: type abbreviation then ',.' to expand
+bindkey ',.' zleiab
+
+# Helper function to show all abbreviations
+help-show-abk() {
+    zle -M "$(print "Type ,. after these abbreviations to expand them:"; print -a -C 2 ${(kv)abk})"
+}
+
+zle -N help-show-abk
+
+# Toggle abbreviation expansion on/off
+grml_toggle_abbrev() {
+    if (( ${NOABBREVIATION} > 0 )) ; then
+        NOABBREVIATION=0
+    else
+        NOABBREVIATION=1
+    fi
+}
+
+zle -N grml_toggle_abbrev
+
+# Optional keybindings (uncomment if desired)
+# bindkey '^xb' help-show-abk      # Ctrl-x b to show abbreviations
+# bindkey '^xA' grml_toggle_abbrev # Ctrl-x A to toggle abbreviations
+
+# Abbreviation expansion state (0 = enabled, 1 = disabled)
+NOABBREVIATION=${NOABBREVIATION:-0}
+
+# Abbreviation definitions
+# Git abbreviations
+abk[gbr]='`git rev-parse --abbrev-ref HEAD`'
+abk[fwl]='--force-with-lease '
+
+# Kubernetes abbreviations
+abk[sort]='--sort-by=.metadata.creationTimestamp'
+
+# Miscellaneous abbreviations
+abk[M]='| more'
+abk[L]='| less'
+abk[sq]="| tr -s ' '"
+abk[http]='python -m SimpleHTTPServer'
+abk[smtp]='sudo python -m smtpd -c DebuggingServer localhost:25'
