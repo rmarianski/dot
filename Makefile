@@ -5,7 +5,10 @@ SYMS = \
 .tmux.conf \
 .vimrc \
 .zshrc \
-.zshrc.local \
+.zsh_abk \
+.zsh_aliases_git \
+.zsh_aliases_kubernetes \
+.zsh_aliases_misc \
 .config/kak/kakrc \
 .config/nvim/init.vim \
 .ripgreprc \
@@ -47,7 +50,7 @@ emacs: ~/.emacs.d ~/.emacs.d/init.el
 git: ~/.gitconfig ~/.gitignore
 screen: ~/.screenrc
 tmux: ~/.tmux.conf
-zsh: ~/.zshrc ~/.zshrc.local
+zsh: ~/.zshrc ~/.zsh_abk ~/.zsh_aliases_git ~/.zsh_aliases_kubernetes ~/.zsh_aliases_misc
 emacs-gtk-key-bindings:
 	gsettings set org.gnome.desktop.interface gtk-key-theme "Emacs"
 rg: ~/.ripgreprc
