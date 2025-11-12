@@ -52,5 +52,10 @@ function gwtabcd() {
   claude-dangerous ../$prefix-$name
 }
 
+function gwtrb() {
+  gwtr $2-$1
+  gbr -D $1
+}
+
 # Git abbreviations
 # Git abbreviations moved to ~/.zsh_abk
