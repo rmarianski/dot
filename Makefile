@@ -10,9 +10,7 @@ SYMS = \
 .zsh_aliases_kubernetes \
 .zsh_aliases_misc \
 .config/kak/kakrc \
-.config/nvim/init.vim \
-.ripgreprc \
-# .config/nvim/init.vim \
+.ripgreprc
 
 DIRS = \
 .emacs.d \
@@ -20,7 +18,7 @@ DIRS = \
 .vim/bundle \
 bin \
 .config/kak \
-.config/nvim \
+.config/nvim
 
 DEST_SYM = $(patsubst %,~/%,$(SYMS))
 DEST_DIR = $(patsubst %,~/%,$(DIRS))
@@ -43,9 +41,8 @@ splitjoin.vim
 
 VIM_PLUGIN_DEST = $(patsubst %,~/.vim/bundle/%,$(VIM_PLUGINS))
 
-all: vim git tmux zsh kak rg
-# vim: ~/.vimrc ~/.vim/bundle ~/.vim/autoload/pathogen.vim ~/.vim/my-snippets ~/.vim/go-template-file.go $(VIM_PLUGIN_DEST) ~/bin/vi-golangci-lint ~/.config/nvim/init.vim ~/.local/share/nvim/site/autoload/plug.vim
-vim: ~/.vimrc ~/.vim/bundle ~/.vim/autoload/pathogen.vim ~/.vim/my-snippets ~/.vim/go-template-file.go $(VIM_PLUGIN_DEST) ~/bin/vi-golangci-lint ~/.local/share/nvim/site/autoload/plug.vim
+all: vim nvim git tmux zsh kak rg
+vim: ~/.vimrc ~/.vim/bundle ~/.vim/autoload/pathogen.vim ~/.vim/my-snippets ~/.vim/go-template-file.go $(VIM_PLUGIN_DEST) ~/bin/vi-golangci-lint
 emacs: ~/.emacs.d ~/.emacs.d/init.el
 git: ~/.gitconfig ~/.gitignore
 screen: ~/.screenrc
@@ -54,7 +51,8 @@ zsh: ~/.zshrc ~/.zsh_abk ~/.zsh_aliases_git ~/.zsh_aliases_kubernetes ~/.zsh_ali
 emacs-gtk-key-bindings:
 	gsettings set org.gnome.desktop.interface gtk-key-theme "Emacs"
 rg: ~/.ripgreprc
-.PHONY: all vim emacs git screen tmux zsh emacs-gtk-key-bindings kak rg
+nvim: ~/.config/nvim ~/.config/nvim/init.lua
+.PHONY: all vim nvim emacs git screen tmux zsh emacs-gtk-key-bindings kak rg
 
 $(DEST_SYM):
 	ln -s `pwd`/$(notdir $@) $@
@@ -66,9 +64,6 @@ $(DEST_DIR):
 	mkdir -p $@
 
 kak: ~/.config/kak ~/.config/kak/kakrc
-
-~/.local/share/nvim/site/autoload/plug.vim:
-	bash install-plug.vim.sh
 
 ~/.vim/autoload/pathogen.vim: ~/.vim/autoload
 	curl -SsLo ~/.vim/autoload/pathogen.vim https://raw.githubusercontent.com/tpope/vim-pathogen/master/autoload/pathogen.vim
@@ -123,3 +118,6 @@ kak: ~/.config/kak ~/.config/kak/kakrc
 
 ~/bin/vi-golangci-lint: | ~/bin
 	ln -s $(PWD)/vi-golangci-lint ~/bin/vi-golangci-lint
+
+~/.config/nvim/init.lua: | ~/.config/nvim
+	ln -s $(PWD)/init.lua ~/.config/nvim/init.lua
