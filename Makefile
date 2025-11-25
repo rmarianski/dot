@@ -10,7 +10,8 @@ SYMS = \
 .zsh_aliases_kubernetes \
 .zsh_aliases_misc \
 .config/kak/kakrc \
-.ripgreprc
+.ripgreprc \
+.config/starship.toml
 
 DIRS = \
 .emacs.d \
@@ -41,7 +42,7 @@ splitjoin.vim
 
 VIM_PLUGIN_DEST = $(patsubst %,~/.vim/bundle/%,$(VIM_PLUGINS))
 
-all: vim nvim git tmux zsh kak rg
+all: vim nvim git tmux zsh kak rg starship
 vim: ~/.vimrc ~/.vim/bundle ~/.vim/autoload/pathogen.vim ~/.vim/my-snippets ~/.vim/go-template-file.go $(VIM_PLUGIN_DEST) ~/bin/vi-golangci-lint
 emacs: ~/.emacs.d ~/.emacs.d/init.el
 git: ~/.gitconfig ~/.gitignore
@@ -52,7 +53,7 @@ emacs-gtk-key-bindings:
 	gsettings set org.gnome.desktop.interface gtk-key-theme "Emacs"
 rg: ~/.ripgreprc
 nvim: ~/.config/nvim ~/.config/nvim/init.lua
-.PHONY: all vim nvim emacs git screen tmux zsh emacs-gtk-key-bindings kak rg
+.PHONY: all vim nvim emacs git screen tmux zsh emacs-gtk-key-bindings kak rg starship
 
 $(DEST_SYM):
 	ln -s `pwd`/$(notdir $@) $@
@@ -64,6 +65,8 @@ $(DEST_DIR):
 	mkdir -p $@
 
 kak: ~/.config/kak ~/.config/kak/kakrc
+
+starship: ~/.config/starship.toml
 
 ~/.vim/autoload/pathogen.vim: ~/.vim/autoload
 	curl -SsLo ~/.vim/autoload/pathogen.vim https://raw.githubusercontent.com/tpope/vim-pathogen/master/autoload/pathogen.vim
