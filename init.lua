@@ -37,6 +37,18 @@ vim.opt.autowrite = true
 vim.opt.autowriteall = true
 vim.opt.grepprg = "rg --vimgrep"
 
+-- Filetype-specific indentation settings (override vim-sleuth)
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = { "javascript", "javascriptreact", "typescript", "typescriptreact", "json", "yaml" },
+    callback = function()
+        vim.b.sleuth_automatic = 0
+        vim.bo.tabstop = 2
+        vim.bo.shiftwidth = 2
+        vim.bo.softtabstop = 2
+        vim.bo.expandtab = true
+    end,
+})
+
 vim.pack.add({
     -- Editor behavior
     { src = "https://github.com/tpope/vim-sleuth" },        -- Auto-detect indentation (tabs/spaces)
@@ -51,7 +63,8 @@ vim.pack.add({
     { src = "https://github.com/folke/which-key.nvim" },      -- Show available key bindings in popup
 
     -- Syntax and language support
-    { src = "https://github.com/nvim-treesitter/nvim-treesitter" }, -- Modern syntax highlighting
+    { src = "https://github.com/nvim-treesitter/nvim-treesitter" },             -- Modern syntax highlighting
+    { src = "https://github.com/nvim-treesitter/nvim-treesitter-textobjects" }, -- Syntax-aware text objects
 
     -- Git integration
     { src = "https://github.com/tpope/vim-fugitive" },      -- Git commands within vim
@@ -73,13 +86,18 @@ vim.pack.add({
     { src = "https://github.com/folke/trouble.nvim" },                     -- Diagnostic list UI
 
     -- Code completion and AI
-    { src = "https://github.com/Saghen/blink.cmp" },               -- Completion engine
-    { src = "https://github.com/zbirenbaum/copilot.lua" },         -- GitHub Copilot integration
-    { src = "https://github.com/CopilotC-Nvim/CopilotChat.nvim" }, -- Copilot Chat
-    { src = "https://github.com/folke/sidekick.nvim" },            -- AI assistant (Claude)
+    { src = "https://github.com/Saghen/blink.cmp" }, -- Completion engine
+    -- { src = "https://github.com/zbirenbaum/copilot.lua" },         -- GitHub Copilot integration
+    -- { src = "https://github.com/CopilotC-Nvim/CopilotChat.nvim" }, -- Copilot Chat
+    { src = "https://github.com/folke/sidekick.nvim" }, -- AI assistant (Claude)
 
     -- Code formatting
     { src = "https://github.com/stevearc/conform.nvim" }, -- Format-on-save with multiple formatters
+
+    -- { src = "https://github.com/milanglacier/minuet-ai.nvim" }, -- minuet code completion
+
+    -- flash
+    { src = "https://github.com/folke/flash.nvim" },
 })
 
 -- ============================================================================
@@ -92,6 +110,70 @@ vim.cmd.colorscheme("carbonfox")
 -- ============================================================================
 -- PLUGIN CONFIGURATION
 -- ============================================================================
+
+-- Treesitter: Syntax highlighting and code parsing
+require("nvim-treesitter.configs").setup({
+    -- Install parsers for these languages
+    ensure_installed = {
+        "lua",
+        "vim",
+        "vimdoc",
+        "python",
+        "javascript",
+        "typescript",
+        "rust",
+        "go",
+        "bash",
+        "markdown",
+        "json",
+        "yaml",
+        "toml",
+    },
+    -- Install parsers synchronously (only applied to `ensure_installed`)
+    sync_install = false,
+    -- Automatically install missing parsers when entering buffer
+    auto_install = true,
+    -- Enable syntax highlighting
+    highlight = {
+        enable = true,
+    },
+    -- Enable incremental selection
+    incremental_selection = {
+        enable = true,
+    },
+    -- Text objects for selecting and navigating code structures
+    textobjects = {
+        select = {
+            enable = true,
+            lookahead = true, -- Automatically jump forward to textobj
+            keymaps = {
+                -- Functions
+                ["af"] = "@function.outer",
+                ["if"] = "@function.inner",
+                -- Classes
+                ["ac"] = "@class.outer",
+                ["ic"] = "@class.inner",
+                -- Parameters/arguments
+                ["aa"] = "@parameter.outer",
+                ["ia"] = "@parameter.inner",
+            },
+        },
+        move = {
+            enable = true,
+            set_jumps = true, -- Add to jumplist
+            goto_next_start = {
+                ["]f"] = "@function.outer",
+                ["]c"] = "@class.outer",
+            },
+            goto_previous_start = {
+                ["[f"] = "@function.outer",
+                ["[c"] = "@class.outer",
+            },
+        },
+    },
+    ignore_install = {},
+    modules = {}
+})
 
 require("telescope").setup({
     defaults = {
@@ -203,46 +285,46 @@ vim.diagnostic.config({ virtual_text = false })
 -- ============================================================================
 
 -- GitHub Copilot: AI code suggestions
-require("copilot").setup({
-    suggestion = {
-        enabled = true,
-        -- Automatically show suggestions while typing
-        auto_trigger = true,
-        -- Don't auto-accept suggestions (manual with Ctrl-\)
-        accept = false,
-        keymap = {
-            accept = "<M-l>",      -- Alt+l to accept suggestion
-            accept_word = "<M-w>", -- Alt+w to accept word
-            accept_line = "<M-e>", -- Alt+e to accept line
-            next = "<M-]>",        -- Alt+] for next suggestion
-            prev = "<M-[>",        -- Alt+[ for previous suggestion
-            dismiss = "<C-]>",     -- Ctrl+] to dismiss
-        },
-    },
-    panel = {
-        -- Disable Copilot panel UI
-        enabled = false,
-    },
-    -- Enable Copilot for all file types
-    filetypes = {
-        markdown = true,
-        help = true,
-        html = true,
-        javascript = true,
-        typescript = true,
-        ["*"] = true,
-    },
-})
+-- require("copilot").setup({
+--     suggestion = {
+--         enabled = true,
+--         -- Automatically show suggestions while typing
+--         auto_trigger = true,
+--         -- Don't auto-accept suggestions (manual with Ctrl-\)
+--         accept = false,
+--         keymap = {
+--             accept = "<M-l>",      -- Alt+l to accept suggestion
+--             accept_word = "<M-w>", -- Alt+w to accept word
+--             accept_line = "<M-e>", -- Alt+e to accept line
+--             next = "<M-]>",        -- Alt+] for next suggestion
+--             prev = "<M-[>",        -- Alt+[ for previous suggestion
+--             dismiss = "<C-]>",     -- Ctrl+] to dismiss
+--         },
+--     },
+--     panel = {
+--         -- Disable Copilot panel UI
+--         enabled = false,
+--     },
+--     -- Enable Copilot for all file types
+--     filetypes = {
+--         markdown = true,
+--         help = true,
+--         html = true,
+--         javascript = true,
+--         typescript = true,
+--         ["*"] = true,
+--     },
+-- })
 
 -- Configure CopilotChat
-require("CopilotChat").setup({
-    -- Optional: customize settings
-    debug = false,
-    window = {
-        layout = 'vertical', -- 'vertical', 'horizontal', 'float'
-        width = 0.4,
-    },
-})
+-- require("CopilotChat").setup({
+--     -- Optional: customize settings
+--     debug = false,
+--     window = {
+--         layout = 'vertical', -- 'vertical', 'horizontal', 'float'
+--         width = 0.4,
+--     },
+-- })
 
 -- Sidekick: Claude AI assistant integration
 require("sidekick").setup({
@@ -264,7 +346,7 @@ require("mason").setup()
 -- Mason-LSPConfig: Bridge between Mason and LSP
 require("mason-lspconfig").setup({
     -- Automatically install these language servers
-    ensure_installed = { "lua_ls", "pyright", "ts_ls" },
+    ensure_installed = { "lua_ls", "pyright", "ts_ls", "buf_ls", "marksman", "helm_ls" },
 })
 
 vim.lsp.config('pyright', {
@@ -294,9 +376,12 @@ vim.lsp.config("lua_ls", {
     },
 })
 
--- Enable remaining LSP servers with default config
-vim.lsp.enable("pyright")
-vim.lsp.enable("ts_ls")
+-- -- Enable remaining LSP servers with default config
+-- vim.lsp.enable("pyright")
+-- vim.lsp.enable("ts_ls")
+-- vim.lsp.enable("buf_ls")
+-- vim.lsp.enable("marksman")
+-- vim.lsp.enable("helm_ls")
 
 -- ============================================================================
 -- AUTO-COMPLETION
@@ -311,10 +396,34 @@ require("blink.cmp").setup({
         ["<Tab>"] = { "select_next", "fallback" },
         -- Accept completion with Enter
         ["<CR>"] = { "accept", "fallback" },
+
+        -- minuet integration
+        -- ['<A-y>'] = require('minuet').make_blink_map(),
     },
     -- Use pure Lua fuzzy matching (faster)
     fuzzy = { implementation = "lua" },
+    -- sources = {
+    --     -- Enable minuet for autocomplete
+    --     default = { 'lsp', 'path', 'buffer', 'snippets', 'minuet' },
+    --     -- For manual completion only, remove 'minuet' from default
+    --     providers = {
+    --         minuet = {
+    --             name = 'minuet',
+    --             module = 'minuet.blink',
+    --             async = true,
+    --             -- Should match minuet.config.request_timeout * 1000,
+    --             -- since minuet.config.request_timeout is in seconds
+    --             timeout_ms = 3000,
+    --             score_offset = 50, -- Gives minuet higher priority among suggestions
+    --         },
+    --     },
+    -- },
+    -- -- Control whether to prefetch or not
+    -- completion = { trigger = { prefetch_on_insert = false } },
 })
+-- require('minuet').setup({
+--     provider = 'claude',
+-- })
 
 -- ============================================================================
 -- CODE FORMATTING
@@ -340,6 +449,40 @@ require("conform").setup({
 })
 
 require("trouble").setup({})
+
+-- Flash: Enhanced motion plugin for jumping to locations
+require("flash").setup({
+    -- Standard search mode settings
+    search = {
+        multi_window = true, -- Search across all visible windows
+        mode = "exact",      -- Use exact matching
+        wrap = true,         -- Wrap around document edges
+        incremental = true,  -- Don't use incremental search
+    },
+    -- Jump label configuration
+    label = {
+        uppercase = false,                        -- Use lowercase labels only
+        rainbow = { enabled = false, shade = 5 }, -- Disable rainbow coloring
+    },
+    -- Modes configuration
+    modes = {
+        -- Standard jump mode
+        search = {
+            enabled = false,
+        },
+        -- Character-based jump (like f/F/t/T)
+        char = {
+            enabled = false,
+            jump_labels = true, -- Show labels after first match
+            multi_line = true,  -- Allow jumping across lines
+        },
+        -- Treesitter-based jumping
+        treesitter = {
+            labels = "asdfghjklqwertyuiopzxcvbnm",
+            jump = { pos = "range" },
+        },
+    },
+})
 
 -- ============================================================================
 -- HELPER FUNCTIONS
@@ -368,6 +511,22 @@ local sidekick_send = function()
     require("sidekick.cli").send({ msg = "{this}", filter = { installed = true } })
 end
 
+
+local themes = require('telescope.themes')
+local telescope_lsp_refs = function()
+    require('telescope.builtin').lsp_references(themes.get_ivy({
+        preview = true,
+        hidden = true,
+        layout_strategy = "vertical",
+        layout_config = {
+            height = vim.o.lines, -- maximally available lines
+            width = vim.o.columns, -- maximally available columns
+            prompt_position = "bottom",
+            preview_height = 0.8
+        },
+    }))
+end
+
 -- ============================================================================
 -- NOTIFICATIONS
 -- ============================================================================
@@ -391,7 +550,8 @@ vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower win
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
 
 -- File and buffer navigation
-vim.keymap.set("n", "<C-a>", vim.cmd.NvimTreeFindFileToggle, { desc = "Toggle NvimTree" })
+-- vim.keymap.set("n", "<C-a>", vim.cmd.NvimTreeFindFileToggle, { desc = "Toggle NvimTree" })
+vim.keymap.set("n", "<leader>tr", vim.cmd.NvimTreeFindFileToggle, { desc = "Toggle NvimTree" })
 vim.keymap.set("n", "<C-p>", require("telescope.builtin").find_files, { desc = "Cmd+P" })
 vim.keymap.set("n", "<leader>b", list_buffers, { desc = "List buffers" })
 
@@ -403,14 +563,14 @@ vim.keymap.set("n", "<F5>", vim.pack.update, { desc = "Update plugins" })
 -- vim.keymap.set("i", "<C-\\>", require("copilot.suggestion").accept, { desc = "Accept Copilot suggestion" })
 
 -- CopilotChat keybindings (works in both normal and visual mode)
-vim.keymap.set({ "n", "v" }, '<leader>cc', ':CopilotChatToggle<CR>', { desc = 'Toggle Copilot Chat' })
-vim.keymap.set({ "n", "v" }, '<leader>cq', ':CopilotChat ', { desc = 'Ask Copilot' })
-vim.keymap.set({ "n", "v" }, '<leader>ce', ':CopilotChatExplain<CR>', { desc = 'Explain code' })
-vim.keymap.set({ "n", "v" }, '<leader>cr', ':CopilotChatReview<CR>', { desc = 'Review code' })
-vim.keymap.set({ "n", "v" }, '<leader>cf', ':CopilotChatFix<CR>', { desc = 'Fix code' })
-vim.keymap.set({ "n", "v" }, '<leader>co', ':CopilotChatOptimize<CR>', { desc = 'Optimize code' })
-vim.keymap.set({ "n", "v" }, '<leader>cd', ':CopilotChatDocs<CR>', { desc = 'Generate docs' })
-vim.keymap.set({ "n", "v" }, '<leader>ct', ':CopilotChatTests<CR>', { desc = 'Generate tests' })
+-- vim.keymap.set({ "n", "v" }, '<leader>cc', ':CopilotChatToggle<CR>', { desc = 'Toggle Copilot Chat' })
+-- vim.keymap.set({ "n", "v" }, '<leader>cq', ':CopilotChat ', { desc = 'Ask Copilot' })
+-- vim.keymap.set({ "n", "v" }, '<leader>ce', ':CopilotChatExplain<CR>', { desc = 'Explain code' })
+-- vim.keymap.set({ "n", "v" }, '<leader>cr', ':CopilotChatReview<CR>', { desc = 'Review code' })
+-- vim.keymap.set({ "n", "v" }, '<leader>cf', ':CopilotChatFix<CR>', { desc = 'Fix code' })
+-- vim.keymap.set({ "n", "v" }, '<leader>co', ':CopilotChatOptimize<CR>', { desc = 'Optimize code' })
+-- vim.keymap.set({ "n", "v" }, '<leader>cd', ':CopilotChatDocs<CR>', { desc = 'Generate docs' })
+-- vim.keymap.set({ "n", "v" }, '<leader>ct', ':CopilotChatTests<CR>', { desc = 'Generate tests' })
 
 -- sidekick
 vim.keymap.set({ "n", "t", "i", "x" }, "<c-.>", sidekick_toggle, { desc = "Sidekick toggle" })
@@ -439,7 +599,8 @@ vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename, { desc = 'LSP: Rename symb
 
 vim.keymap.set("n", "gd", vim.lsp.buf.definition, { noremap = true, silent = true, desc = "Go to definition" })
 vim.keymap.set("n", "gD", vim.lsp.buf.type_definition, { noremap = true, silent = true, desc = "Go to definition" })
-vim.keymap.set("n", "gr", vim.lsp.buf.references, { noremap = true, silent = true, desc = "List references" })
+-- vim.keymap.set("n", "gr", vim.lsp.buf.references, { noremap = true, silent = true, desc = "List references" })
+vim.keymap.set("n", "gr", telescope_lsp_refs, { noremap = true, silent = true, desc = "List references" })
 vim.keymap.set('n', '<leader>lt', function()
     require('telescope.builtin').lsp_dynamic_workspace_symbols({
         symbols = { 'function', 'method', 'class', 'struct', 'interface' }
@@ -455,3 +616,15 @@ vim.keymap.set("n", "<leader>tl", "<cmd>Trouble lsp toggle focus=false win.posit
     { desc = "Trouble: LSP definitions/references" })
 vim.keymap.set("n", "<leader>tL", "<cmd>Trouble loclist toggle<cr>", { desc = "Trouble: Location list" })
 vim.keymap.set("n", "<leader>tq", "<cmd>Trouble qflist toggle<cr>", { desc = "Trouble: Quickfix list" })
+
+-- Flash navigation keybindings
+vim.keymap.set({ "n", "x", "o" }, "<leader>fs", function() require("flash").jump() end,
+    { desc = "Flash: Jump to location" })
+vim.keymap.set({ "n", "x", "o" }, "<leader>ft", function() require("flash").treesitter() end,
+    { desc = "Flash: Jump to treesitter node" })
+vim.keymap.set("o", "<leader>fr", function() require("flash").remote() end,
+    { desc = "Flash: Remote operation" })
+vim.keymap.set({ "o", "x" }, "<leader>fR", function() require("flash").treesitter_search() end,
+    { desc = "Flash: Treesitter search" })
+vim.keymap.set({ "c" }, "<c-s>", function() require("flash").toggle() end,
+    { desc = "Flash: Toggle in command mode" })
