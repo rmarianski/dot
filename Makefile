@@ -37,7 +37,6 @@ vim-rhubarb \
 vim-snippets \
 vim-surround \
 vim-unimpaired \
-ultisnips \
 splitjoin.vim
 
 VIM_PLUGIN_DEST = $(patsubst %,~/.vim/bundle/%,$(VIM_PLUGINS))
@@ -73,9 +72,6 @@ starship: ~/.config/starship.toml
 
 ~/.vim/bundle/syntastic: | ~/.vim/bundle
 	git clone https://github.com/scrooloose/syntastic.git ~/.vim/bundle/syntastic
-
-~/.vim/bundle/ultisnips: | ~/.vim/bundle
-	git clone https://github.com/SirVer/ultisnips ~/.vim/bundle/ultisnips
 
 ~/.vim/bundle/ctrlp.vim: | ~/.vim/bundle
 	git clone https://github.com/ctrlpvim/ctrlp.vim.git ~/.vim/bundle/ctrlp.vim
