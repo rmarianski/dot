@@ -98,6 +98,9 @@ vim.pack.add({
 
     -- flash
     { src = "https://github.com/folke/flash.nvim" },
+
+    -- workspace symbols
+    { src = "https://github.com/artemave/workspace-diagnostics.nvim" },
 })
 
 -- ============================================================================
@@ -519,7 +522,7 @@ local telescope_lsp_refs = function()
         hidden = true,
         layout_strategy = "vertical",
         layout_config = {
-            height = vim.o.lines, -- maximally available lines
+            height = vim.o.lines,  -- maximally available lines
             width = vim.o.columns, -- maximally available columns
             prompt_position = "bottom",
             preview_height = 0.8
