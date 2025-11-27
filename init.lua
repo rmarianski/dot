@@ -131,6 +131,8 @@ require("nvim-treesitter.configs").setup({
         "json",
         "yaml",
         "toml",
+        "terraform",
+        "hcl",
     },
     -- Install parsers synchronously (only applied to `ensure_installed`)
     sync_install = false,
