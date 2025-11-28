@@ -31,6 +31,7 @@ alias kds="kd svc"
 alias kes="ke svc"
 alias krs="k rollout status"
 alias kdrain="k drain --delete-emptydir-data --ignore-daemonsets"
+alias stern="kubectl stern"
 
 # Kubernetes abbreviations moved to ~/.zsh_abk
 
@@ -42,11 +43,3 @@ function kimagedeploys() {
 function kimagedeploy() {
     kgd $1 -o json | jq -r '.metadata.name + " " + .spec.template.spec.containers[0].image'
 }
-
-# Kubectl completion disabled due to fork issues
-# function _kubectl_completion_lazy() {
-#     if ! type __start_kubectl &>/dev/null; then
-#         source <(kubectl completion zsh)
-#     fi
-# }
-# alias kubectl="_kubectl_completion_lazy; kubectl"
