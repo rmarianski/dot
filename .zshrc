@@ -45,6 +45,8 @@ zle -N edit-command-line
 bindkey '^xe' edit-command-line
 bindkey '^x^e' edit-command-line
 
+export EDITOR=vi
+
 # System specific configuration
 if [ -r $HOME/.zsh_local ]; then
   source $HOME/.zsh_local
