@@ -99,8 +99,6 @@ vim.pack.add({
     -- flash
     { src = "https://github.com/folke/flash.nvim" },
 
-    -- workspace symbols
-    { src = "https://github.com/artemave/workspace-diagnostics.nvim" },
 })
 
 -- ============================================================================
