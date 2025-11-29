@@ -587,6 +587,12 @@ vim.keymap.set("n", "<leader>rg",
 -- Leader key shortcuts (Space + ...)
 -- vim.keymap.set("n", "<leader>rg", require("telescope.builtin").live_grep, { desc = "[R]ip[G]rep" })
 vim.keymap.set("n", "<leader>gd", vim.cmd.Gvdiffsplit, { desc = "[G]it [D]iff" })
+vim.keymap.set('n', '<leader>gs', ':G status<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>gc', ':G commit<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>gpull', ':G pull<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>gpush', ':G push<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>gl', ':G log<CR>', { noremap = true, silent = true })
+
 vim.keymap.set("n", "<leader>nvr", reload_configuration, { desc = "Reload configuration" })
 vim.keymap.set('n', '<leader>nve', ':e ~/.config/nvim/init.lua<CR>', { desc = 'Edit Neovim config' })
 -- vim.keymap.set("n", "<leader>ls", vim.lsp.buf.document_symbol,
