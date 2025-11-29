@@ -99,6 +99,8 @@ vim.pack.add({
     -- flash
     { src = "https://github.com/folke/flash.nvim" },
 
+    -- rust
+    { src = "https://github.com/mrcjkb/rustaceanvim" },
 })
 
 -- ============================================================================
