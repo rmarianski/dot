@@ -180,6 +180,7 @@ require("nvim-treesitter.configs").setup({
     modules = {}
 })
 
+local telescope_actions = require("telescope.actions")
 require("telescope").setup({
     defaults = {
         -- Disable preview by default for faster performance
@@ -187,6 +188,8 @@ require("telescope").setup({
         mappings = {
             i = {
                 ['<C-u>'] = false, -- Disable Telescope's default mapping to use standard CLI behavior
+                ["<S-Down>"] = telescope_actions.cycle_history_next,
+                ["<S-Up>"] = telescope_actions.cycle_history_prev,
             },
         },
     },
