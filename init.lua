@@ -351,7 +351,7 @@ require("mason").setup()
 -- Mason-LSPConfig: Bridge between Mason and LSP
 require("mason-lspconfig").setup({
     -- Automatically install these language servers
-    ensure_installed = { "lua_ls", "pyright", "ts_ls", "buf_ls", "marksman", "helm_ls" },
+    ensure_installed = { "lua_ls", "pyright", "buf_ls", "marksman", "helm_ls" },
 })
 
 vim.lsp.config('pyright', {
