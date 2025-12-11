@@ -57,5 +57,19 @@ function gwtrb() {
   gbr -D $1
 }
 
+function gwtabn() {
+  name="$1"
+  prefix="$2"
+  if [ -z "$2" ]; then
+    echo "Usage: $0 <name> <prefix>"
+    exit 1
+  fi
+  shift
+  shift
+  gwtab $name $prefix $*
+  cd ../$prefix-$name
+  nvim
+}
+
 # Git abbreviations
 # Git abbreviations moved to ~/.zsh_abk
