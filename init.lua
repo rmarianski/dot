@@ -87,6 +87,7 @@ vim.pack.add({
 
     -- Code completion and AI
     { src = "https://github.com/Saghen/blink.cmp" }, -- Completion engine
+
     -- { src = "https://github.com/zbirenbaum/copilot.lua" },         -- GitHub Copilot integration
     -- { src = "https://github.com/CopilotC-Nvim/CopilotChat.nvim" }, -- Copilot Chat
     { src = "https://github.com/folke/sidekick.nvim" }, -- AI assistant (Claude)
@@ -95,6 +96,10 @@ vim.pack.add({
     { src = "https://github.com/stevearc/conform.nvim" }, -- Format-on-save with multiple formatters
 
     -- { src = "https://github.com/milanglacier/minuet-ai.nvim" }, -- minuet code completion
+
+    -- Snippets
+    { src = "https://github.com/L3MON4D3/LuaSnip" },             -- Snippet engine
+    { src = "https://github.com/rafamadriz/friendly-snippets" }, -- Collection of pre-made snippets
 
     -- flash
     { src = "https://github.com/folke/flash.nvim" },
@@ -345,6 +350,27 @@ require("sidekick").setup({
 })
 
 -- ============================================================================
+-- SNIPPETS
+-- ============================================================================
+
+-- LuaSnip: Snippet engine
+local luasnip = require("luasnip")
+
+-- Load friendly-snippets (VSCode-style snippets)
+require("luasnip.loaders.from_vscode").lazy_load()
+
+-- Load custom snippets from ~/.config/snippet
+require("luasnip.loaders.from_vscode").lazy_load({ paths = { "~/.config/snippet" } })
+
+-- LuaSnip configuration
+luasnip.setup({
+    -- Update snippets in real-time as you type
+    update_events = "TextChanged,TextChangedI",
+    -- Delete snippet text when jumping to next placeholder
+    delete_check_events = "TextChanged",
+})
+
+-- ============================================================================
 -- LSP (LANGUAGE SERVER PROTOCOL)
 -- ============================================================================
 
@@ -399,17 +425,56 @@ vim.lsp.config("lua_ls", {
 require("blink.cmp").setup({
     keymap = {
         preset = "default",
-        -- Navigate completion menu with Tab/Shift-Tab
-        ["<S-Tab>"] = { "select_prev", "fallback" },
-        ["<Tab>"] = { "select_next", "fallback" },
+        -- Tab behavior: navigate completion menu or jump to next snippet placeholder
+        ["<Tab>"] = {
+            function(cmp)
+                if cmp.snippet_active() then
+                    return cmp.snippet_forward()
+                else
+                    return cmp.select_next()
+                end
+            end,
+            "fallback"
+        },
+        -- Shift-Tab: navigate up in menu or jump to previous snippet placeholder
+        ["<S-Tab>"] = {
+            function(cmp)
+                if cmp.snippet_active() then
+                    return cmp.snippet_backward()
+                else
+                    return cmp.select_prev()
+                end
+            end,
+            "fallback"
+        },
         -- Accept completion with Enter
         ["<CR>"] = { "accept", "fallback" },
 
         -- minuet integration
         -- ['<A-y>'] = require('minuet').make_blink_map(),
     },
+    -- Snippet configuration
+    snippets = {
+        expand = function(snippet) require("luasnip").lsp_expand(snippet) end,
+        active = function(filter)
+            if filter and filter.direction then
+                return require("luasnip").jumpable(filter.direction)
+            end
+            return require("luasnip").in_snippet()
+        end,
+        jump = function(direction) require("luasnip").jump(direction) end,
+    },
     -- Use pure Lua fuzzy matching (faster)
     fuzzy = { implementation = "lua" },
+    sources = {
+        -- Enable snippets with high priority
+        default = { "lsp", "path", "snippets", "buffer" },
+        providers = {
+            snippets = {
+                score_offset = 80, -- High priority for snippets
+            },
+        },
+    },
     -- sources = {
     --     -- Enable minuet for autocomplete
     --     default = { 'lsp', 'path', 'buffer', 'snippets', 'minuet' },

@@ -19,7 +19,8 @@ DIRS = \
 .vim/bundle \
 bin \
 .config/kak \
-.config/nvim
+.config/nvim \
+.config/snippet
 
 DEST_SYM = $(patsubst %,~/%,$(SYMS))
 DEST_DIR = $(patsubst %,~/%,$(DIRS))
@@ -51,7 +52,7 @@ zsh: ~/.zshrc ~/.zsh_abk ~/.zsh_aliases_git ~/.zsh_aliases_kubernetes ~/.zsh_ali
 emacs-gtk-key-bindings:
 	gsettings set org.gnome.desktop.interface gtk-key-theme "Emacs"
 rg: ~/.ripgreprc
-nvim: ~/.config/nvim ~/.config/nvim/init.lua
+nvim: ~/.config/nvim ~/.config/nvim/init.lua ~/.config/snippet ~/.config/snippet/go.json ~/.config/snippet/python.json ~/.config/snippet/rust.json
 .PHONY: all vim nvim emacs git screen tmux zsh emacs-gtk-key-bindings kak rg starship
 
 $(DEST_SYM):
@@ -120,3 +121,12 @@ starship: ~/.config/starship.toml
 
 ~/.config/nvim/init.lua: | ~/.config/nvim
 	ln -s $(PWD)/init.lua ~/.config/nvim/init.lua
+
+~/.config/snippet/go.json: | ~/.config/snippet
+	ln -s $(PWD)/vscode/snippets/go.json ~/.config/snippet/go.json
+
+~/.config/snippet/python.json: | ~/.config/snippet
+	ln -s $(PWD)/vscode/snippets/python.json ~/.config/snippet/python.json
+
+~/.config/snippet/rust.json: | ~/.config/snippet
+	ln -s $(PWD)/vscode/snippets/rust.json ~/.config/snippet/rust.json
