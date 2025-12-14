@@ -86,9 +86,6 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_cpp_compiler = 'clang++'
 let g:syntastic_cpp_compiler_options = '-std=c++11'
 
-" handled by vim-go plugin
-let g:syntastic_go_checkers = []
-
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
 let g:ctrlp_custom_ignore = 'git\|vendor'
 
@@ -102,26 +99,3 @@ nnoremap <leader>2 yypVr-
 nmap <leader>c  :CtrlPClearAllCaches
 
 autocmd FileType gitcommit set colorcolumn=50,72
-autocmd FileType go nmap <leader>b  <Plug>(go-build)
-autocmd FileType go nmap <leader>r  <Plug>(go-run)
-autocmd FileType go nmap <leader>t  <Plug>(go-test)
-autocmd FileType go nmap <leader>m  <Plug>(go-imports)
-autocmd FileType go nmap <leader>i  <Plug>(go-info)
-autocmd FileType go nmap <leader>h  <Plug>(go-doc)
-autocmd FileType go nmap <leader>l  <Plug>(go-metalinter)
-autocmd Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
-autocmd Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
-autocmd Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
-" autocmd Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
-autocmd FileType go nmap <leader>d  :GoDecls
-autocmd FileType go nmap <leader>D  :GoDeclsDir
-autocmd FileType go nmap <leader>e  :GoIfErr
-autocmd FileType go nmap <leader>s  :GoFillStruct
-let g:go_fmt_options = {
-  \ 'gofmt': '-s',
-  \ }
-let g:go_fmt_command = "goimports"
-let g:go_metalinter_command = "vi-golangci-lint"
-"let g:UltiSnipsListSnippets = '<C-l>'
-"let g:UltiSnipsSnippetDirectories=["UltiSnips", "my-snippets"]
-let g:go_template_file = expand("$HOME/.vim/go-template-file.go")

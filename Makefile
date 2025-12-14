@@ -32,7 +32,6 @@ tabular \
 vim-colors-solarized \
 vim-commentary \
 vim-fugitive \
-vim-go \
 vim-repeat \
 vim-rhubarb \
 vim-snippets \
@@ -43,7 +42,7 @@ splitjoin.vim
 VIM_PLUGIN_DEST = $(patsubst %,~/.vim/bundle/%,$(VIM_PLUGINS))
 
 all: vim nvim git tmux zsh kak rg starship
-vim: ~/.vimrc ~/.vim/bundle ~/.vim/autoload/pathogen.vim ~/.vim/my-snippets ~/.vim/go-template-file.go $(VIM_PLUGIN_DEST) ~/bin/vi-golangci-lint
+vim: ~/.vimrc ~/.vim/bundle ~/.vim/autoload/pathogen.vim ~/.vim/my-snippets $(VIM_PLUGIN_DEST)
 emacs: ~/.emacs.d ~/.emacs.d/init.el
 git: ~/.gitconfig ~/.gitignore
 screen: ~/.screenrc
@@ -80,9 +79,6 @@ starship: ~/.config/starship.toml
 ~/.vim/bundle/vim-fugitive: | ~/.vim/bundle
 	git clone https://github.com/tpope/vim-fugitive.git ~/.vim/bundle/vim-fugitive
 
-~/.vim/bundle/vim-go: | ~/.vim/bundle
-	git clone https://github.com/fatih/vim-go.git ~/.vim/bundle/vim-go
-
 ~/.vim/bundle/vim-commentary: | ~/.vim/bundle
 	git clone git@github.com:tpope/vim-commentary.git ~/.vim/bundle/vim-commentary
 
@@ -112,12 +108,6 @@ starship: ~/.config/starship.toml
 
 ~/.vim/my-snippets: | ~/.vim
 	ln -s $(PWD)/vim-snippets ~/.vim/my-snippets
-
-~/.vim/go-template-file.go: | ~/.vim
-	ln -s $(PWD)/go-template-file.go ~/.vim/go-template-file.go
-
-~/bin/vi-golangci-lint: | ~/bin
-	ln -s $(PWD)/vi-golangci-lint ~/bin/vi-golangci-lint
 
 ~/.config/nvim/init.lua: | ~/.config/nvim
 	ln -s $(PWD)/init.lua ~/.config/nvim/init.lua
