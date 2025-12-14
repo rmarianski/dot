@@ -707,3 +707,10 @@ vim.keymap.set({ "o", "x" }, "<leader>fR", function() require("flash").treesitte
     { desc = "Flash: Treesitter search" })
 vim.keymap.set({ "c" }, "<c-s>", function() require("flash").toggle() end,
     { desc = "Flash: Toggle in command mode" })
+
+-- ============================================================================
+-- LOCAL MACHINE-SPECIFIC CONFIGURATION
+-- ============================================================================
+
+-- Load local machine-specific configuration (create ~/.config/nvim/lua/local.lua)
+local _, _ = pcall(require, "local")
