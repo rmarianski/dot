@@ -1,5 +1,3 @@
-# Misc aliases and functions - extracted from ~/.zshrc.local and ~/.zsh_local
-
 # Directory navigation aliases
 alias ...='cd ../..'
 alias ....='cd ../../..'
