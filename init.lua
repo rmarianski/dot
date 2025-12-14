@@ -61,6 +61,8 @@ vim.pack.add({
     { src = "https://github.com/nvim-lualine/lualine.nvim" }, -- Status line at the bottom
     { src = "https://github.com/j-hui/fidget.nvim" },         -- LSP progress notifications
     { src = "https://github.com/folke/which-key.nvim" },      -- Show available key bindings in popup
+    -- solarized theme
+    { src = "https://github.com/maxmx03/solarized.nvim" },
 
     -- Syntax and language support
     { src = "https://github.com/nvim-treesitter/nvim-treesitter" },             -- Modern syntax highlighting
@@ -113,7 +115,13 @@ vim.pack.add({
 -- ============================================================================
 
 -- Apply the carbonfox color scheme
-vim.cmd.colorscheme("carbonfox")
+-- vim.cmd.colorscheme("carbonfox")
+require("solarized").setup({
+    transparent = {
+        enabled = true,
+    }
+})
+vim.cmd.colorscheme("solarized")
 
 -- ============================================================================
 -- PLUGIN CONFIGURATION
