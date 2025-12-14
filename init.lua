@@ -708,6 +708,14 @@ vim.keymap.set({ "o", "x" }, "<leader>fR", function() require("flash").treesitte
 vim.keymap.set({ "c" }, "<c-s>", function() require("flash").toggle() end,
     { desc = "Flash: Toggle in command mode" })
 
+-- Custom keybindings
+local insert_today_date = function()
+    local today = os.date("%Y-%m-%d")             -- Get today's date in YYYY-MM-DD format
+    today = tostring(today)
+    vim.api.nvim_put({ today }, 'l', false, true) -- Insert date at the current cursor position
+end
+vim.keymap.set({ "n" }, "<leader>dt", insert_today_date, { desc = "Insert today's date" })
+
 -- ============================================================================
 -- LOCAL MACHINE-SPECIFIC CONFIGURATION
 -- ============================================================================
