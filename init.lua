@@ -479,7 +479,7 @@ require("blink.cmp").setup({
         default = { "lsp", "path", "snippets", "buffer" },
         providers = {
             snippets = {
-                score_offset = 80, -- High priority for snippets
+                score_offset = -10, -- Lower priority: appears after LSP property completions
             },
         },
     },
