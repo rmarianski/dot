@@ -10,8 +10,16 @@ alias less="less -i"
 
 # Development aliases
 alias bi='brew install'
+
+## Cargo aliases
 alias c=cargo
 alias cb="c build"
+alias ct="c test"
+alias cr="c run"
+alias chk="c check"
+alias clip="c clippy"
+
+## Python aliases
 alias python=python3
 alias pip=pip3
 
