@@ -88,16 +88,12 @@ vim.pack.add({
     { src = "https://github.com/folke/trouble.nvim" },                     -- Diagnostic list UI
 
     -- Code completion and AI
-    { src = "https://github.com/Saghen/blink.cmp" }, -- Completion engine
+    { src = "https://github.com/Saghen/blink.cmp" },    -- Completion engine
 
-    -- { src = "https://github.com/zbirenbaum/copilot.lua" },         -- GitHub Copilot integration
-    -- { src = "https://github.com/CopilotC-Nvim/CopilotChat.nvim" }, -- Copilot Chat
     { src = "https://github.com/folke/sidekick.nvim" }, -- AI assistant (Claude)
 
     -- Code formatting
     { src = "https://github.com/stevearc/conform.nvim" }, -- Format-on-save with multiple formatters
-
-    -- { src = "https://github.com/milanglacier/minuet-ai.nvim" }, -- minuet code completion
 
     -- Snippets
     { src = "https://github.com/L3MON4D3/LuaSnip" },             -- Snippet engine
@@ -288,6 +284,9 @@ require("fidget").setup({
             align = "top",
             border = "rounded",
         },
+        timer = {
+            figdet_decay = 5000,
+        }
     },
 })
 
@@ -300,52 +299,6 @@ require("tiny-inline-diagnostic").setup({
     },
 })
 vim.diagnostic.config({ virtual_text = false })
-
--- ============================================================================
--- COPILOT & AI ASSISTANTS
--- ============================================================================
-
--- GitHub Copilot: AI code suggestions
--- require("copilot").setup({
---     suggestion = {
---         enabled = true,
---         -- Automatically show suggestions while typing
---         auto_trigger = true,
---         -- Don't auto-accept suggestions (manual with Ctrl-\)
---         accept = false,
---         keymap = {
---             accept = "<M-l>",      -- Alt+l to accept suggestion
---             accept_word = "<M-w>", -- Alt+w to accept word
---             accept_line = "<M-e>", -- Alt+e to accept line
---             next = "<M-]>",        -- Alt+] for next suggestion
---             prev = "<M-[>",        -- Alt+[ for previous suggestion
---             dismiss = "<C-]>",     -- Ctrl+] to dismiss
---         },
---     },
---     panel = {
---         -- Disable Copilot panel UI
---         enabled = false,
---     },
---     -- Enable Copilot for all file types
---     filetypes = {
---         markdown = true,
---         help = true,
---         html = true,
---         javascript = true,
---         typescript = true,
---         ["*"] = true,
---     },
--- })
-
--- Configure CopilotChat
--- require("CopilotChat").setup({
---     -- Optional: customize settings
---     debug = false,
---     window = {
---         layout = 'vertical', -- 'vertical', 'horizontal', 'float'
---         width = 0.4,
---     },
--- })
 
 -- Sidekick: Claude AI assistant integration
 require("sidekick").setup({
@@ -457,9 +410,6 @@ require("blink.cmp").setup({
         },
         -- Accept completion with Enter
         ["<CR>"] = { "accept", "fallback" },
-
-        -- minuet integration
-        -- ['<A-y>'] = require('minuet').make_blink_map(),
     },
     -- Snippet configuration
     snippets = {
@@ -483,28 +433,7 @@ require("blink.cmp").setup({
             },
         },
     },
-    -- sources = {
-    --     -- Enable minuet for autocomplete
-    --     default = { 'lsp', 'path', 'buffer', 'snippets', 'minuet' },
-    --     -- For manual completion only, remove 'minuet' from default
-    --     providers = {
-    --         minuet = {
-    --             name = 'minuet',
-    --             module = 'minuet.blink',
-    --             async = true,
-    --             -- Should match minuet.config.request_timeout * 1000,
-    --             -- since minuet.config.request_timeout is in seconds
-    --             timeout_ms = 3000,
-    --             score_offset = 50, -- Gives minuet higher priority among suggestions
-    --         },
-    --     },
-    -- },
-    -- -- Control whether to prefetch or not
-    -- completion = { trigger = { prefetch_on_insert = false } },
 })
--- require('minuet').setup({
---     provider = 'claude',
--- })
 
 -- ============================================================================
 -- CODE FORMATTING
@@ -640,18 +569,6 @@ vim.keymap.set("n", "<leader>b", list_buffers, { desc = "List buffers" })
 vim.keymap.set("n", "<F5>", vim.pack.update, { desc = "Update plugins" })
 
 -- AI assistants
--- copilot accept suggestions
--- vim.keymap.set("i", "<C-\\>", require("copilot.suggestion").accept, { desc = "Accept Copilot suggestion" })
-
--- CopilotChat keybindings (works in both normal and visual mode)
--- vim.keymap.set({ "n", "v" }, '<leader>cc', ':CopilotChatToggle<CR>', { desc = 'Toggle Copilot Chat' })
--- vim.keymap.set({ "n", "v" }, '<leader>cq', ':CopilotChat ', { desc = 'Ask Copilot' })
--- vim.keymap.set({ "n", "v" }, '<leader>ce', ':CopilotChatExplain<CR>', { desc = 'Explain code' })
--- vim.keymap.set({ "n", "v" }, '<leader>cr', ':CopilotChatReview<CR>', { desc = 'Review code' })
--- vim.keymap.set({ "n", "v" }, '<leader>cf', ':CopilotChatFix<CR>', { desc = 'Fix code' })
--- vim.keymap.set({ "n", "v" }, '<leader>co', ':CopilotChatOptimize<CR>', { desc = 'Optimize code' })
--- vim.keymap.set({ "n", "v" }, '<leader>cd', ':CopilotChatDocs<CR>', { desc = 'Generate docs' })
--- vim.keymap.set({ "n", "v" }, '<leader>ct', ':CopilotChatTests<CR>', { desc = 'Generate tests' })
 
 -- sidekick
 vim.keymap.set({ "n", "t", "i", "x" }, "<c-.>", sidekick_toggle, { desc = "Sidekick toggle" })
@@ -724,9 +641,19 @@ local insert_today_date = function()
 end
 vim.keymap.set({ "n" }, "<leader>dt", insert_today_date, { desc = "Insert today's date" })
 
+-- rust keybindings
+vim.keymap.set({ "n", "v", "x" }, "<leader>rrd", "<cmd>RustLsp renderDiagnostic<cr>",
+    { desc = "Rustacean render diagnostic" })
+vim.keymap.set({ "n", "v", "x" }, "<leader>rca", "<cmd>RustLsp codeAction<cr>", { desc = "Rustacean code action" })
+
 -- ============================================================================
 -- LOCAL MACHINE-SPECIFIC CONFIGURATION
 -- ============================================================================
 
--- Load local machine-specific configuration (create ~/.config/nvim/lua/local.lua)
-local _, _ = pcall(require, "local")
+-- Attempt to load local machine-specific configuration
+local init_file = vim.fn.stdpath('config') .. '/local/init.lua'
+if vim.fn.filereadable(init_file) == 1 then
+    dofile(init_file)
+else
+    print('local/init.lua not found or not readable at: ' .. init_file)
+end
