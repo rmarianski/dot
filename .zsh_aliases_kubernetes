@@ -10,8 +10,6 @@ alias kgp="kg po"
 alias kdp="kd po"
 alias kga="kg all"
 alias kaf="k apply -f"
-alias kctx=kubectx
-alias kns=kubens
 alias kcc="k config current-context"
 alias kcn="k config view --minify | grep namespace | awk '{print \$NF}'"
 alias kgd="kg deploy"
@@ -31,7 +29,10 @@ alias kds="kd svc"
 alias kes="ke svc"
 alias krs="k rollout status"
 alias kdrain="k drain --delete-emptydir-data --ignore-daemonsets"
-alias stern="kubectl stern"
+alias kctx="k ctx"
+alias kns="k ns"
+alias tkn="k tkn"
+alias stern="k stern"
 
 # Kubernetes abbreviations moved to ~/.zsh_abk
 
