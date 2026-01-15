@@ -624,6 +624,8 @@ vim.keymap.set("n", "<leader>tq", "<cmd>Trouble qflist toggle<cr>", { desc = "Tr
 -- Flash navigation keybindings
 vim.keymap.set({ "n", "x", "o" }, "<leader>fs", function() require("flash").jump() end,
     { desc = "Flash: Jump to location" })
+vim.keymap.set({ "n", "x", "o" }, "<leader>fr", function() require("flash").jump({ search = { forward = false } }) end,
+    { desc = "Flash: Jump to location in reverse" })
 vim.keymap.set({ "n", "x", "o" }, "<leader>ft", function() require("flash").treesitter() end,
     { desc = "Flash: Jump to treesitter node" })
 vim.keymap.set("o", "<leader>fr", function() require("flash").remote() end,
