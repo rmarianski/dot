@@ -587,6 +587,7 @@ vim.keymap.set('n', '<leader>gc', ':G commit<CR>', { noremap = true, silent = tr
 vim.keymap.set('n', '<leader>gpull', ':G pull<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>gpush', ':G push<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>gl', ':G log<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>ge', ':Gedit<CR>', { noremap = true, silent = true })
 
 vim.keymap.set("n", "<leader>nvr", reload_configuration, { desc = "Reload configuration" })
 vim.keymap.set('n', '<leader>nve', ':e ~/.config/nvim/init.lua<CR>', { desc = 'Edit Neovim config' })
