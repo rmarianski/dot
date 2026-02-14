@@ -655,6 +655,9 @@ vim.keymap.set({ "n", "v", "x" }, "<leader>rrd", "<cmd>RustLsp renderDiagnostic<
     { desc = "Rustacean render diagnostic" })
 vim.keymap.set({ "n", "v", "x" }, "<leader>rca", "<cmd>RustLsp codeAction<cr>", { desc = "Rustacean code action" })
 
+-- spell
+vim.opt.spellfile = "~/.config/nvim/spell/custom.utf-8.add"
+
 -- ============================================================================
 -- LOCAL MACHINE-SPECIFIC CONFIGURATION
 -- ============================================================================
