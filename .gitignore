@@ -27,3 +27,4 @@ extra-ssh-config
 .vscode
 .claude/settings.local.json
 .tool-versions
+.tmp
