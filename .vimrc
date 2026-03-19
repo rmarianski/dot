@@ -93,9 +93,10 @@ if filereadable(expand("~/.vimrc.local"))
   exec ":so ~/.vimrc.local"
 endif
 
+let mapleader = " "
 nnoremap <leader>1 yypVr=
 nnoremap <leader>2 yypVr-
-
+nnoremap <leader>n o> NOTE: 
 nmap <leader>c  :CtrlPClearAllCaches
 
 autocmd FileType gitcommit set colorcolumn=50,72

@@ -558,6 +558,7 @@ vim.notify = require("fidget.notification").notify
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Unhighlight search word" })
 vim.keymap.set('n', '<leader>1', 'yypVr=', { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>2', 'yypVr-', { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>n', 'o> NOTE: ', { noremap = true, silent = true })
 
 -- Window navigation (Ctrl + hjkl)
 vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })
