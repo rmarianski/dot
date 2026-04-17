@@ -26,5 +26,7 @@ extra-ssh-config
 .gnupg/pubring.gpg~
 .vscode
 .claude/settings.local.json
+.claude/scheduled_tasks.lock
 .tool-versions
 .tmp
+.worktrees
