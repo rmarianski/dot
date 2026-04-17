@@ -26,7 +26,7 @@ function gwtab() {
   prefix="$2"
   shift
   shift
-  gwta ../$prefix-$name -b $name $*
+  git worktree add ../$prefix-$name -b $name $*
 }
 
 function gwtabc() {
