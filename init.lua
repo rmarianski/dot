@@ -88,6 +88,7 @@ vim.pack.add({
     { src = "https://github.com/folke/trouble.nvim" },                     -- Diagnostic list UI
 
     -- Code completion and AI
+    { src = "https://github.com/Saghen/blink.lib" },    -- Required by blink.cmp v2
     { src = "https://github.com/Saghen/blink.cmp" },    -- Completion engine
 
     { src = "https://github.com/folke/sidekick.nvim" }, -- AI assistant (Claude)
@@ -123,71 +124,37 @@ vim.cmd.colorscheme("solarized")
 -- PLUGIN CONFIGURATION
 -- ============================================================================
 
--- Treesitter: Syntax highlighting and code parsing
-require("nvim-treesitter.configs").setup({
-    -- Install parsers for these languages
-    ensure_installed = {
-        "lua",
-        "vim",
-        "vimdoc",
-        "python",
-        "javascript",
-        "typescript",
-        "rust",
-        "go",
-        "bash",
-        "markdown",
-        "json",
-        "yaml",
-        "toml",
-        "terraform",
-        "hcl",
-    },
-    -- Install parsers synchronously (only applied to `ensure_installed`)
-    sync_install = false,
-    -- Automatically install missing parsers when entering buffer
-    auto_install = true,
-    -- Enable syntax highlighting
-    highlight = {
-        enable = true,
-    },
-    -- Enable incremental selection
-    incremental_selection = {
-        enable = true,
-    },
-    -- Text objects for selecting and navigating code structures
-    textobjects = {
-        select = {
-            enable = true,
-            lookahead = true, -- Automatically jump forward to textobj
-            keymaps = {
-                -- Functions
-                ["af"] = "@function.outer",
-                ["if"] = "@function.inner",
-                -- Classes
-                ["ac"] = "@class.outer",
-                ["ic"] = "@class.inner",
-                -- Parameters/arguments
-                ["aa"] = "@parameter.outer",
-                ["ia"] = "@parameter.inner",
-            },
-        },
-        move = {
-            enable = true,
-            set_jumps = true, -- Add to jumplist
-            goto_next_start = {
-                ["]f"] = "@function.outer",
-                ["]c"] = "@class.outer",
-            },
-            goto_previous_start = {
-                ["[f"] = "@function.outer",
-                ["[c"] = "@class.outer",
-            },
-        },
-    },
-    ignore_install = {},
-    modules = {}
+-- Treesitter: install language parsers (highlighting is built into Neovim natively)
+require("nvim-treesitter").install({
+    "lua", "vim", "vimdoc", "python", "javascript", "typescript",
+    "rust", "go", "bash", "markdown", "json", "yaml", "toml", "terraform", "hcl",
 })
+
+-- Textobjects: select keymaps
+local ts_select = require("nvim-treesitter-textobjects.select")
+vim.keymap.set({ "x", "o" }, "af", function() ts_select.select_textobject("@function.outer", "textobjects") end,
+    { desc = "TS: outer function" })
+vim.keymap.set({ "x", "o" }, "if", function() ts_select.select_textobject("@function.inner", "textobjects") end,
+    { desc = "TS: inner function" })
+vim.keymap.set({ "x", "o" }, "ac", function() ts_select.select_textobject("@class.outer", "textobjects") end,
+    { desc = "TS: outer class" })
+vim.keymap.set({ "x", "o" }, "ic", function() ts_select.select_textobject("@class.inner", "textobjects") end,
+    { desc = "TS: inner class" })
+vim.keymap.set({ "x", "o" }, "aa", function() ts_select.select_textobject("@parameter.outer", "textobjects") end,
+    { desc = "TS: outer parameter" })
+vim.keymap.set({ "x", "o" }, "ia", function() ts_select.select_textobject("@parameter.inner", "textobjects") end,
+    { desc = "TS: inner parameter" })
+
+-- Textobjects: move keymaps
+local ts_move = require("nvim-treesitter-textobjects.move")
+vim.keymap.set("n", "]f", function() ts_move.goto_next_start("@function.outer", "textobjects") end,
+    { desc = "TS: next function start" })
+vim.keymap.set("n", "]c", function() ts_move.goto_next_start("@class.outer", "textobjects") end,
+    { desc = "TS: next class start" })
+vim.keymap.set("n", "[f", function() ts_move.goto_previous_start("@function.outer", "textobjects") end,
+    { desc = "TS: prev function start" })
+vim.keymap.set("n", "[c", function() ts_move.goto_previous_start("@class.outer", "textobjects") end,
+    { desc = "TS: prev class start" })
 
 local telescope_actions = require("telescope.actions")
 local lga_actions = require("telescope-live-grep-args.actions")
@@ -668,5 +635,5 @@ local init_file = vim.fn.stdpath('config') .. '/local/init.lua'
 if vim.fn.filereadable(init_file) == 1 then
     dofile(init_file)
 else
-    print('local/init.lua not found or not readable at: ' .. init_file)
+    -- print('local/init.lua not found or not readable at: ' .. init_file)
 end
