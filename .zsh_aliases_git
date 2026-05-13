@@ -20,56 +20,5 @@ alias gwtl="gwt list"
 alias gwta="gwt add"
 alias gwtr="gwt remove"
 
-# Git worktree functions
-function gwtab() {
-  name="$1"
-  prefix="$2"
-  shift
-  shift
-  git worktree add ../$prefix-$name -b $name $*
-}
-
-function gwtabc() {
-  name="$1"
-  prefix="$2"
-  if [ -z "$2" ]; then
-    echo "Usage: $0 <name> <prefix>"
-    exit 1
-  fi
-  shift
-  shift
-  gwtab $name $prefix $*
-  cd ../$prefix-$name
-  claude
-}
-
-function gwtabcd() {
-  name="$1"
-  prefix="$2"
-  shift
-  shift
-  gwtab $name $prefix $*
-  claude-dangerous ../$prefix-$name
-}
-
-function gwtrb() {
-  gwtr $2-$1
-  gbr -D $1
-}
-
-function gwtabn() {
-  name="$1"
-  prefix="$2"
-  if [ -z "$2" ]; then
-    echo "Usage: $0 <name> <prefix>"
-    exit 1
-  fi
-  shift
-  shift
-  gwtab $name $prefix $*
-  cd ../$prefix-$name
-  nvim
-}
-
 # Git abbreviations
 # Git abbreviations moved to ~/.zsh_abk
