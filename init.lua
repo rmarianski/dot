@@ -125,36 +125,46 @@ vim.cmd.colorscheme("solarized")
 -- ============================================================================
 
 -- Treesitter: install language parsers (highlighting is built into Neovim natively)
-require("nvim-treesitter").install({
+local ensure_installed = {
     "lua", "vim", "vimdoc", "python", "javascript", "typescript",
     "rust", "go", "bash", "markdown", "json", "yaml", "toml", "terraform", "hcl",
+}
+require("nvim-treesitter.configs").setup({
+    ensure_installed = ensure_installed,
+    auto_install = true,
+    highlight = {
+        enable = true,
+    },
 })
 
--- Textobjects: select keymaps
-local ts_select = require("nvim-treesitter-textobjects.select")
-vim.keymap.set({ "x", "o" }, "af", function() ts_select.select_textobject("@function.outer", "textobjects") end,
-    { desc = "TS: outer function" })
-vim.keymap.set({ "x", "o" }, "if", function() ts_select.select_textobject("@function.inner", "textobjects") end,
-    { desc = "TS: inner function" })
-vim.keymap.set({ "x", "o" }, "ac", function() ts_select.select_textobject("@class.outer", "textobjects") end,
-    { desc = "TS: outer class" })
-vim.keymap.set({ "x", "o" }, "ic", function() ts_select.select_textobject("@class.inner", "textobjects") end,
-    { desc = "TS: inner class" })
-vim.keymap.set({ "x", "o" }, "aa", function() ts_select.select_textobject("@parameter.outer", "textobjects") end,
-    { desc = "TS: outer parameter" })
-vim.keymap.set({ "x", "o" }, "ia", function() ts_select.select_textobject("@parameter.inner", "textobjects") end,
-    { desc = "TS: inner parameter" })
-
--- Textobjects: move keymaps
-local ts_move = require("nvim-treesitter-textobjects.move")
-vim.keymap.set("n", "]f", function() ts_move.goto_next_start("@function.outer", "textobjects") end,
-    { desc = "TS: next function start" })
-vim.keymap.set("n", "]c", function() ts_move.goto_next_start("@class.outer", "textobjects") end,
-    { desc = "TS: next class start" })
-vim.keymap.set("n", "[f", function() ts_move.goto_previous_start("@function.outer", "textobjects") end,
-    { desc = "TS: prev function start" })
-vim.keymap.set("n", "[c", function() ts_move.goto_previous_start("@class.outer", "textobjects") end,
-    { desc = "TS: prev class start" })
+require("nvim-treesitter.configs").setup({
+    textobjects = {
+        select = {
+            enable = true,
+            lookahead = true,
+            keymaps = {
+                ["af"] = "@function.outer",
+                ["if"] = "@function.inner",
+                ["ac"] = "@class.outer",
+                ["ic"] = "@class.inner",
+                ["aa"] = "@parameter.outer",
+                ["ia"] = "@parameter.inner",
+            },
+        },
+        move = {
+            enable = true,
+            set_jumps = true,
+            goto_next_start = {
+                ["]f"] = "@function.outer",
+                ["]c"] = "@class.outer",
+            },
+            goto_previous_start = {
+                ["[f"] = "@function.outer",
+                ["[c"] = "@class.outer",
+            },
+        },
+    },
+})
 
 local telescope_actions = require("telescope.actions")
 local lga_actions = require("telescope-live-grep-args.actions")
