@@ -28,5 +28,6 @@ extra-ssh-config
 .claude/settings.local.json
 .claude/scheduled_tasks.lock
 .tool-versions
+.mise.toml
 .tmp
 .worktrees
