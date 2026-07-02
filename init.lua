@@ -107,6 +107,24 @@ vim.pack.add({
     { src = "https://github.com/mrcjkb/rustaceanvim" },
 })
 
+-- Load all optional packages before any require() calls
+for _, pkg in ipairs({
+    "solarized.nvim", "nightfox.nvim",
+    "nvim-treesitter", "nvim-treesitter-textobjects",
+    "plenary.nvim", "telescope.nvim", "telescope-live-grep-args.nvim",
+    "nvim-tree.lua", "nvim-rooter.lua",
+    "bufferline.nvim", "lualine.nvim", "fidget.nvim", "which-key.nvim",
+    "tiny-inline-diagnostic.nvim", "sidekick.nvim", "trouble.nvim", "flash.nvim",
+    "LuaSnip", "friendly-snippets",
+    "mason.nvim", "mason-lspconfig.nvim", "nvim-lspconfig",
+    "blink.lib", "blink.cmp",
+    "conform.nvim",
+    "gitsigns.nvim", "git-blame.nvim", "diffview.nvim", "vim-fugitive",
+    "rustaceanvim", "vim-sleuth", "vim-abolish",
+}) do
+    vim.cmd.packadd(pkg)
+end
+
 -- ============================================================================
 -- THEME
 -- ============================================================================
@@ -124,47 +142,37 @@ vim.cmd.colorscheme("solarized")
 -- PLUGIN CONFIGURATION
 -- ============================================================================
 
--- Treesitter: install language parsers (highlighting is built into Neovim natively)
-local ensure_installed = {
+-- Treesitter v1.0: install parsers (async); highlighting is built into Neovim
+require("nvim-treesitter").install({
     "lua", "vim", "vimdoc", "python", "javascript", "typescript",
     "rust", "go", "bash", "markdown", "json", "yaml", "toml", "terraform", "hcl",
-}
-require("nvim-treesitter.configs").setup({
-    ensure_installed = ensure_installed,
-    auto_install = true,
-    highlight = {
-        enable = true,
-    },
 })
 
-require("nvim-treesitter.configs").setup({
-    textobjects = {
-        select = {
-            enable = true,
-            lookahead = true,
-            keymaps = {
-                ["af"] = "@function.outer",
-                ["if"] = "@function.inner",
-                ["ac"] = "@class.outer",
-                ["ic"] = "@class.inner",
-                ["aa"] = "@parameter.outer",
-                ["ia"] = "@parameter.inner",
-            },
-        },
-        move = {
-            enable = true,
-            set_jumps = true,
-            goto_next_start = {
-                ["]f"] = "@function.outer",
-                ["]c"] = "@class.outer",
-            },
-            goto_previous_start = {
-                ["[f"] = "@function.outer",
-                ["[c"] = "@class.outer",
-            },
-        },
-    },
+vim.api.nvim_create_autocmd("FileType", {
+    callback = function() pcall(vim.treesitter.start) end,
 })
+
+-- Textobjects: config options (lookahead, jump marks, etc.)
+require("nvim-treesitter-textobjects").setup({
+    select = { lookahead = true },
+    move = { set_jumps = true },
+})
+
+-- Textobjects: select keymaps
+local to_select = require("nvim-treesitter-textobjects.select")
+vim.keymap.set({ "x", "o" }, "af", function() to_select.select_textobject("@function.outer", "textobjects") end)
+vim.keymap.set({ "x", "o" }, "if", function() to_select.select_textobject("@function.inner", "textobjects") end)
+vim.keymap.set({ "x", "o" }, "ac", function() to_select.select_textobject("@class.outer", "textobjects") end)
+vim.keymap.set({ "x", "o" }, "ic", function() to_select.select_textobject("@class.inner", "textobjects") end)
+vim.keymap.set({ "x", "o" }, "aa", function() to_select.select_textobject("@parameter.outer", "textobjects") end)
+vim.keymap.set({ "x", "o" }, "ia", function() to_select.select_textobject("@parameter.inner", "textobjects") end)
+
+-- Textobjects: move keymaps
+local to_move = require("nvim-treesitter-textobjects.move")
+vim.keymap.set({ "n", "x", "o" }, "]f", function() to_move.goto_next_start("@function.outer", "textobjects") end)
+vim.keymap.set({ "n", "x", "o" }, "]c", function() to_move.goto_next_start("@class.outer", "textobjects") end)
+vim.keymap.set({ "n", "x", "o" }, "[f", function() to_move.goto_previous_start("@function.outer", "textobjects") end)
+vim.keymap.set({ "n", "x", "o" }, "[c", function() to_move.goto_previous_start("@class.outer", "textobjects") end)
 
 local telescope_actions = require("telescope.actions")
 local lga_actions = require("telescope-live-grep-args.actions")
