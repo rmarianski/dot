@@ -31,3 +31,4 @@ extra-ssh-config
 .mise.toml
 .tmp
 .worktrees
+**/.claude/.cc-writes/
