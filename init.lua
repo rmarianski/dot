@@ -1,4 +1,5 @@
 vim.g.mapleader = " " -- Set leader key to space for custom key bindings
+vim.g.maplocalleader = " " -- <localleader> defaults to "\" independently of mapleader unless set explicitly -- keep both on spacebar
 vim.opt.number = true -- Display line numbers in the gutter
 vim.opt.mouse = "a"   -- Display line numbers in the gutter
 -- vim.opt.clipboard = "unnamedplus" -- Enable mouse support in all modes
@@ -105,6 +106,11 @@ vim.pack.add({
 
     -- rust
     { src = "https://github.com/mrcjkb/rustaceanvim" },
+
+    -- GitHub PR review inside nvim (pi-agent-k8s inbox-cli's `inbox review`
+    -- opens this via `:Octo pr edit <n>` + `:Octo review start`)
+    { src = "https://github.com/pwntester/octo.nvim" },
+    { src = "https://github.com/nvim-tree/nvim-web-devicons" }, -- file icons; octo's review file-panel requires this, not just nvim-tree
 })
 
 -- Load all optional packages before any require() calls
@@ -121,6 +127,7 @@ for _, pkg in ipairs({
     "conform.nvim",
     "gitsigns.nvim", "git-blame.nvim", "diffview.nvim", "vim-fugitive",
     "rustaceanvim", "vim-sleuth", "vim-abolish",
+    "octo.nvim", "nvim-web-devicons",
 }) do
     vim.cmd.packadd(pkg)
 end
@@ -259,6 +266,24 @@ require("nvim-tree").setup({
     },
 })
 
+-- GitHub PR review (`:Octo pr edit <n>` + `:Octo review start` / `:Octo pr
+-- list`) -- uses the `gh` CLI's own auth, same as this project's other `gh`
+-- usage.
+require("octo").setup({
+    -- Use the REAL on-disk file (a normal `file://` buffer, full LSP incl.
+    -- go-to-definition/references across the whole project) for the right
+    -- (new/PR) side of a review diff, instead of octo's virtual `octo://`
+    -- scratch buffer -- but only when locally checked out on the PR's own
+    -- branch (`octo.utils.in_pr_branch`), which is exactly what `gh pr
+    -- checkout`/`inbox review` already does before opening the review. The
+    -- left (base/old) side stays virtual (buftype=nofile, no real file to
+    -- back it against) -- that's fine, it's the pre-change version anyway.
+    use_local_fs = true,
+
+    default_merge_method = "squash",
+    default_delete_branch = true, -- optional, matches repos with auto-delete on
+})
+
 -- NvimRooter: Auto-change working directory to project root
 require("nvim-rooter").setup()
 
@@ -325,6 +350,45 @@ luasnip.setup({
 -- ============================================================================
 -- LSP (LANGUAGE SERVER PROTOCOL)
 -- ============================================================================
+
+-- Don't let LSP clients (ts_ls in particular) attach to virtual buffers from
+-- plugins that use a fake URI scheme instead of a real file path --
+-- octo.nvim's review panel (`octo://repo/review/...`) and fugitive's blob
+-- buffers (`fugitive:///real/path/.git//<sha>/file.ts`) both hit this: the
+-- buffer gets a real filetype (typescript/etc.) so LSP tries to attach, but
+-- root_dir/node_modules resolution fails loudly ("Could not find a valid
+-- TypeScript installation") because the buffer isn't backed by a real file
+-- on disk the LSP can walk up from. Matches any `<scheme>://` bufname
+-- generically rather than special-casing each plugin one at a time.
+-- This alone isn't enough for ts_ls: its own root_dir (lspconfig's
+-- `lsp/ts_ls.lua`) NEVER returns nil -- it falls back to `getcwd()` when no
+-- marker is found, so it always calls `on_dir(...)` and starts the client
+-- unconditionally. That means the failed `initialize` RPC ("Could not find
+-- a valid TypeScript installation") happens BEFORE `LspAttach` ever fires --
+-- too late for the autocmd above to prevent the loud error. Wrap ts_ls's
+-- own root_dir so it refuses to start at all for virtual-scheme buffers,
+-- falling through to the real logic otherwise.
+do
+    local ts_ls_default_root_dir = vim.lsp.config['ts_ls'].root_dir
+    vim.lsp.config('ts_ls', {
+        root_dir = function(bufnr, on_dir)
+            local bufname = vim.api.nvim_buf_get_name(bufnr)
+            if bufname:match("^%a+://") then
+                return -- virtual buffer (octo://, fugitive://, ...) -- don't start ts_ls
+            end
+            ts_ls_default_root_dir(bufnr, on_dir)
+        end,
+    })
+end
+
+vim.api.nvim_create_autocmd("LspAttach", {
+    callback = function(args)
+        local bufname = vim.api.nvim_buf_get_name(args.buf)
+        if bufname:match("^%a+://") then
+            vim.lsp.buf_detach_client(args.buf, args.data.client_id)
+        end
+    end,
+})
 
 -- Mason: Install and manage language servers
 require("mason").setup()
