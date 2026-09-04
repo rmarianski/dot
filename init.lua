@@ -382,14 +382,27 @@ do
     })
 end
 
-vim.api.nvim_create_autocmd("LspAttach", {
-    callback = function(args)
-        local bufname = vim.api.nvim_buf_get_name(args.buf)
-        if bufname:match("^%a+://") then
-            vim.lsp.buf_detach_client(args.buf, args.data.client_id)
-        end
-    end,
-})
+-- Disabled: this used to be a generic backstop for the ts_ls virtual-buffer
+-- problem described above, detaching ANY LSP client from ANY buffer whose
+-- name matches `<scheme>://...` right after it attaches. That's too broad --
+-- it also nukes perfectly good clients (pyright, lua_ls, etc.) that attach
+-- fine to virtual buffers like octo.nvim's `octo://repo/review/...` review
+-- panel, which is why `gd`/textDocument/definition stopped working there
+-- ("not supported by any server activated for this buffer" -- because the
+-- client was attached, then immediately detached). The targeted ts_ls
+-- root_dir wrap above already prevents ts_ls specifically from attaching to
+-- virtual buffers, so this blanket detach shouldn't be needed anymore.
+-- Left here (disabled) in case some other server needs the same treatment
+-- ts_ls got -- re-enable/scope-narrow if a similar loud-error symptom shows
+-- up for another LSP client on octo://, fugitive://, etc. buffers.
+-- vim.api.nvim_create_autocmd("LspAttach", {
+--     callback = function(args)
+--         local bufname = vim.api.nvim_buf_get_name(args.buf)
+--         if bufname:match("^%a+://") then
+--             vim.lsp.buf_detach_client(args.buf, args.data.client_id)
+--         end
+--     end,
+-- })
 
 -- Mason: Install and manage language servers
 require("mason").setup()
