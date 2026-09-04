@@ -1,7 +1,8 @@
-vim.g.mapleader = " " -- Set leader key to space for custom key bindings
+vim.g.mapleader = " "         -- Set leader key to space for custom key bindings
 vim.g.maplocalleader = " " -- <localleader> defaults to "\" independently of mapleader unless set explicitly -- keep both on spacebar
-vim.opt.number = true -- Display line numbers in the gutter
-vim.opt.mouse = "a"   -- Display line numbers in the gutter
+vim.opt.number = true         -- Display line numbers in the gutter
+vim.opt.relativenumber = true -- Display relative line numbers
+vim.opt.mouse = "a"           -- Display line numbers in the gutter
 -- vim.opt.clipboard = "unnamedplus" -- Enable mouse support in all modes
 -- vim.opt.breakindent = true -- Preserve indentation when wrapping lines
 vim.opt.undofile = true -- Save undo history to file for persistence across sessions
@@ -608,6 +609,10 @@ vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Unhighlight search
 vim.keymap.set('n', '<leader>1', 'yypVr=', { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>2', 'yypVr-', { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>n', 'o> NOTE: ', { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>rn", function()
+    vim.opt.number = true
+    vim.opt.relativenumber = not vim.opt.relativenumber:get()
+end, { desc = "Toggle relative line numbers" })
 
 -- Window navigation (Ctrl + hjkl)
 vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })
