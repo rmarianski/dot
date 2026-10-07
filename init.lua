@@ -248,6 +248,12 @@ require("telescope").load_extension("live_grep_args")
 
 -- NvimTree: File explorer
 require("nvim-tree").setup({
+    -- Keep Vim's built-in `-` motion instead of NvimTree's parent-directory mapping.
+    on_attach = function(bufnr)
+        local api = require("nvim-tree.api")
+        api.config.mappings.default_on_attach(bufnr)
+        vim.keymap.del("n", "-", { buffer = bufnr })
+    end,
     -- Sync tree root with current working directory
     sync_root_with_cwd = true,
     respect_buf_cwd = true,
@@ -618,6 +624,8 @@ vim.notify = require("fidget.notification").notify
 -- ============================================================================
 
 -- General editor shortcuts
+-- Restore Vim's built-in `-` motion instead of Neovim's dir.lua explorer mapping.
+vim.keymap.set("n", "-", "-", { noremap = true, desc = "Move to the beginning of the previous line" })
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Unhighlight search word" })
 vim.keymap.set('n', '<leader>1', 'yypVr=', { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>2', 'yypVr-', { noremap = true, silent = true })
